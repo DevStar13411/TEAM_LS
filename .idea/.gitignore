@@ -8,5 +8,9 @@
 /dataSources.local.xml
 
 __pycache__
+<<<<<<< HEAD
 venv
 config.py
+=======
+venv
+>>>>>>> efffdd1 (flask test)

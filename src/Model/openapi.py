@@ -4,7 +4,7 @@ import config
 import datetime
 import pandas as pd
 
-from src.Model.control_db import find_all_good_by_id
+
 
 
 def find_item(item, str):
@@ -150,6 +150,7 @@ def price_by_date_Id(date, goodId):
     return row
 
 def load_price():
+    from src.Model.control_db import find_all_good_by_id
     date = "20220930"
     row = []
     goodId = find_all_good_by_id()
