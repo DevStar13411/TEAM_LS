@@ -35,10 +35,11 @@ def get_location(address):
 def update_entp_position():
     entp_list = find_all_entp()
     for entp_row in entp_list:
-        if entp_row['latitude']==0:
-            address = entp_row['roadAddrBasic']
-            x, y = get_location(address)
-            update_entp_pos(entp_row['entpId'], x, y)
+
+        address = entp_row['roadAddrBasic']
+        x, y = get_location(address)
+
+        update_entp_pos(entp_row['entpId'], x, y)
 
 
 # a = (위도1,경도1) b = (위도2, 경도2) 위도 : float
@@ -48,12 +49,11 @@ def get_distacne(a, b):
 
 # now_pos (위도,경도) rad(주변 반경) 업체 id 리스트 출력
 # -> 추후 now_pos 도로명 주소로 변경 가능성 고민
-def find_near_entp(now_pos, rad):
+def find_near_entp(now_pos, rad=5):
     entp_list = find_all_entp()
     entpId_near = []
     for entp_row in entp_list:
-        address = entp_row['roadAddrBasic']
-        x, y = get_location(address)
+        x, y = entp_row['latitude'],entp_row['longitude']
 
         dist = get_distacne(now_pos, (x, y))
         if dist <= rad:
