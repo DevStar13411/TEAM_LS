@@ -1,10 +1,8 @@
 import time
 
-from flask import json
 from pymongo import MongoClient
-
 from config import db_client
-from src.Model import openapi
+
 
 client = MongoClient(db_client)
 db = client.zzangbaguni
@@ -73,31 +71,30 @@ def find_entp(entp_id_list):
 
 
 # 상품 id, 주변 업체 id list -> 상품 명, 업체 명, 가격 정보 출력
-# 최적화 필요함 ... 필수...
+#
 def find_price_by_id(good_id_list, entp_id_list):
-
+    start = time.time()
     collection_good = db.goodlist
     collect_entp = db.entplist
     collect_price = db.price
     info =[]
     data_entp = []
+    price_row = list(collect_price.find({"entpId":{"$in":entp_id_list},"goodId":{"$in":good_id_list}},{"entpId":1,"goodId":1,"goodPrice":1,"_id":0}))
+    print(len(price_row))
+    print(price_row)
+    # for row in price_row:
+    #     good_name = collection_good.find_one({"goodId": row['goodId']})["goodName"]
+    #     entp_name = collect_entp.find_one({"entpId": row['entpId']})["entpName"]
+    #     try:
+    #         info.append({"good_name":good_name,"entp_name":entp_name,"price": row["goodPrice"]})
+    #
+    #     except TypeError:
+    #
+    #         # print("해당 업체("+entp_name+")는 상품("+good_name+")이 존재하지 않습니다.", )
+    #         pass
+    end = time.time()
+    print(f"{end - start:.5f} sec")
 
-    for entp in entp_id_list:
-        cnt = 0
-        total = 0
-        for good_id in good_id_list:
-            total +=1
-            row = collect_price.find_one({"goodId": good_id, "entpId": entp})
-            good_name = collection_good.find_one({"goodId": good_id})["goodName"]
-            entp_name = collect_entp.find_one({"entpId": entp})["entpName"]
-            try:
-                info.append({"good_name":good_name ,"entp_name":entp_name,"price": row["goodPrice"]})
 
-            except TypeError:
-                cnt += 1
-                # print("해당 업체("+entp_name+")는 상품("+good_name+")이 존재하지 않습니다.", )
-                pass
-        print("해당 업체("+entp_name+")는" ,cnt*100/total,"% 존재하지 않습니다.")
-        data_entp.append({"name": entp_name, "fail": cnt})
 
-    return info, data_entp
+    return price_row
