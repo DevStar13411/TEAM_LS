@@ -80,8 +80,13 @@ def find_price_by_id(good_id_list, entp_id_list):
     info =[]
     data_entp = []
     price_row = list(collect_price.find({"entpId":{"$in":entp_id_list},"goodId":{"$in":good_id_list}},{"entpId":1,"goodId":1,"goodPrice":1,"_id":0}))
-    print(len(price_row))
-    print(price_row)
+
+    entp_name = list(collect_entp.find({"entpId": {"$in" :entp_id_list}},{"entpName":1,"latitude":1,"longitude":1,"_id":0}))
+    good_name = list(collection_good.find({"goodId": {"$in" :good_id_list}},{"goodName":1,"_id":0}))
+    print(good_name)
+
+
+    price_row
     # for row in price_row:
     #     good_name = collection_good.find_one({"goodId": row['goodId']})["goodName"]
     #     entp_name = collect_entp.find_one({"entpId": row['entpId']})["entpName"]

@@ -1,5 +1,5 @@
 from flask import Flask
-from src.Controller import main_views
+from flaskapp.src.Controller import main_views
 
 
 def create_app():

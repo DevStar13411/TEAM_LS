@@ -1,10 +1,10 @@
+
 import time
 import random
 from unittest import TestCase
 
-from src.Model.control_db import find_all_good_category, find_price_by_id, find_all_good_by_id, find_entp
-from src.Service import address
-from src.Service.address import update_entp_position, find_near_entp
+from flaskapp.src.Model.control_db import find_all_good_by_id, find_entp, find_price_by_id, find_all_good_category
+from flaskapp.src.Service.address import update_entp_position, find_near_entp
 
 
 class Test(TestCase):
