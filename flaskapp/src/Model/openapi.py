@@ -16,7 +16,7 @@ def find_item(item, str):
     except:
         return None
 
-# 1. 상품 목록
+# 1.. 상품 목록
 
 def parse_good(item):
     return {
