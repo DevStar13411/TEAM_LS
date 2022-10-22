@@ -1,3 +1,6 @@
+import csv
+from time import sleep
+
 import requests
 from bs4 import BeautifulSoup
 import config
@@ -151,12 +154,25 @@ def price_by_date_Id(date, goodId):
 
 def load_price():
     from src.Model.control_db import find_all_good_by_id
-    date = "20220930"
+    date = "20220923" # 20220909 20220923 20221007
     row = []
     goodId = find_all_good_by_id()
     for id in goodId:
         row.append(price_by_date_Id(date, id))
+        sleep(0.1) # 트래픽 제한 걸림
+        print(id)
+    print(row)
     return row
+
+def trans_csv():
+    row = load_price()
+    keys = row[0].keys()
+
+    with open('test.csv','w',newline='') as output_file:
+        dict_writer = csv.DictWriter(output_file,keys)
+        dict_writer.writeheader()
+        dict_writer.writerows(row)
+
 
 # 중복 제거
 def erase_dup(row):
@@ -170,3 +186,4 @@ def erase_dup(row):
             pass
 
     return li_drop
+
