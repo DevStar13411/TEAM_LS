@@ -12,6 +12,11 @@ db = client.zzangbaguni
 # collect_entp = db.entplist
 # collect_price = db.price
 
+def find_all_good():
+    collection_good = db.goodlist
+    return list(collection_good.find({},{"goodId":1,"goodName":1,"goodSmlclsCode":1,"_id":0}))
+
+
 # 모든 상품 코드 불러오기
 def find_all_good_by_id():
     collection_good = db.goodlist
@@ -81,11 +86,13 @@ def find_price_by_id(good_id_list, entp_id_list):
     data_entp = []
 
     price_row = list(collect_price.find({"entpId":{"$in":entp_id_list},"goodId":{"$in":good_id_list}},{"entpId":1,"goodId":1,"goodPrice":1,"_id":0}))
-    entp_name = list(collect_entp.find({"entpId": {"$in" :entp_id_list}},{"entpName":1,"latitude":1,"longitude":1,"_id":0}))
-    good_name = list(collection_good.find({"goodId": {"$in" :good_id_list}},{"goodName":1,"_id":0}))
+    entp_name = list(collect_entp.find({"entpId": {"$in" :entp_id_list}},{"entpId":1,"entpName":1,"latitude":1,"longitude":1,"_id":0}))
+    good_name = list(collection_good.find({"goodId": {"$in" :good_id_list}},{"goodId":1,"goodName":1,"_id":0}))
 
-    print(entp_name)
-    print(good_name)
+
+    # print(price_row)
+    # print(entp_name)
+    # print(good_name)
     # for row in price_row:
     #     good_name = collection_good.find_one({"goodId": row['goodId']})["goodName"]
     #     entp_name = collect_entp.find_one({"entpId": row['entpId']})["entpName"]
@@ -97,4 +104,4 @@ def find_price_by_id(good_id_list, entp_id_list):
     #         # print("해당 업체("+entp_name+")는 상품("+good_name+")이 존재하지 않습니다.", )
     #         pass
 
-    return price_row
+    return price_row, entp_name, good_name
