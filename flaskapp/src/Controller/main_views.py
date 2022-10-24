@@ -1,3 +1,5 @@
+import traceback
+
 import pymongo as pymongo
 from flask import Blueprint, request, render_template
 
@@ -19,6 +21,7 @@ def get_goods_page():
     # 위, 경도로 변환
     if address is not None:
         latitude, longitude = get_location(address)
+        print(latitude,longitude)
     else:
         latitude = request.args.get('latitude', default=37.29640641606932, type=float)
         longitude = request.args.get('longitude', default=126.9776123527779, type=float)
@@ -32,23 +35,27 @@ def get_goods_page():
 
 
 # 결과 지도 화면
+
 @main_page.route('/map', methods=['GET', 'POST'])
 def get_result_page():
     # 상품 목록과 현재 위치를 담은 json 파일 받을 예정 -> gid, eid를 통해 가격 결과 출력
     if request.method == 'POST':
         data = request.get_json()
-        return None
+        good_id_list = data.get("goods")
+        latitude = data.get("latitude")
+        longitude = data.get("longitude")
+
     # 테스트 용 임시
     else:
         if request.method == 'GET':
             latitude = request.args.get('latitude', default=37.29640641606932, type=float)
             longitude = request.args.get('longitude', default=126.9776123527779, type=float)
 
-            entp_list = find_near_entp((latitude, longitude))
             good_id_list = find_all_good_by_id()
-            price,entp,good = find_price_by_id(good_id_list, entp_list)
 
-            p={"price":price,"entp":entp,"good":good}
+    entp_list = find_near_entp((latitude, longitude))
+    price, entp, good = find_price_by_id(good_id_list, entp_list)
 
+    p = {"price": price, "entp": entp, "good": good}
     return p
     # return render_template('map.html',price = data)
