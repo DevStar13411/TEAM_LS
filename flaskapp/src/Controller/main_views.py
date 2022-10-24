@@ -19,14 +19,14 @@ def hello_world():
 def get_goods_page():
     address = request.args.get('address', default=None, type=str)
     # 위, 경도로 변환
-    if address is not None:
+    if not address:
         latitude, longitude = get_location(address)
-        print(latitude,longitude)
+
     else:
         latitude = request.args.get('latitude', default=37.29640641606932, type=float)
         longitude = request.args.get('longitude', default=126.9776123527779, type=float)
-
-    # entp_list = find_near_entp((latitude,longitude))
+    print(latitude, longitude)
+    entp_list = find_near_entp((latitude,longitude))
 
     # 상품 정보를 담은 json 전달
     data = find_all_good()
