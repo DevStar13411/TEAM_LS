@@ -19,13 +19,13 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker build -t gunflask ./flask/'
-                sh 'docker build -t mynginx ./nginx/'
+                sh 'docker build -t nginxvue .'
             }
         }
         
         stage('Deploy') {
             steps{
-                sh 'docker ps -a -q --filter name=mynginx | grep -q . && docker stop mynginx && docker rm mynginx'
+                sh 'docker ps -a -q --filter name=nginxvue | grep -q . && docker stop mynginx && docker rm nginxvue'
                 sh 'docker ps -a -q --filter name=gunflask | grep -q . && docker stop gunflask && docker rm gunflask'
                 sh 'docker run -d --network="nginx_network" --name gunflask gunflask'
                 sh 'docker run -d --network="nginx_network" -p 80:80 --name mynginx mynginx'
