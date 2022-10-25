@@ -1,6 +1,6 @@
 FROM node as build-stage
 WORKDIR /app
-COPY /vue/package*.json .
+COPY /vue/package*.json ./
 RUN npm install
 COPY /vue/ .
 RUN npm run build
