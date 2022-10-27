@@ -1,5 +1,5 @@
 <template>
-	<div class="default">
+	<div class="board">
 		<h1>This is single good view</h1>
 	</div>
 </template>
@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style scoped>
-.default { width:800px; margin: 20px auto; }
+.board { width:800px; margin: 20px auto; }
 </style>
