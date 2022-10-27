@@ -36,7 +36,7 @@ export default {
     methods : {
         getGoodsList() {
             //this.axios.get("http://localhost:5000/goods",{
-            this.axios.get("http://http://43.200.162.158:5000/goods",{
+            this.axios.get("http://43.200.162.158/goods",{
                 params: {
                     address: this.$route.query.address,
                     latitude: this.$route.query.latitude,
