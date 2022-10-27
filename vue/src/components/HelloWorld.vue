@@ -17,13 +17,10 @@ export default {
   },
   data() {
     return {
-      zip: '',
-      addr1: '',
-      addr2: '',
+      addr: '',
       latitude: '',
       longitude: '',
-      textContent: ''
-    }
+    };
   },
   methods: {
     showApi() {
@@ -54,32 +51,34 @@ export default {
                 fullRoadAddr += extraRoadAddr;
             }
 
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            this.zip = data.zonecode; //5자리 새우편번호 사용
-            this.addr1 = fullRoadAddr;
-            console.log(this.addr1);
+            // 주소 정보를 해당 필드에 넣는다.
+            this.addr = fullRoadAddr;
+            console.log(this.addr);
+
+            this.$router.push({name :'MainView',query:{address : this.addr, latitude:this.latitude, longtitude:this.longitude}});
         }
       //}).embed(this.$refs.embed) //팝업 띄우기 어려운 모바일 환경일 경우 embed로 띄우기도 가능
-      }).open()
+      }).open();
     },//참고: https://chlost.tistory.com/53
     geofind() {
       if(!("geolocation" in navigator)) {
         this.textContent = 'Geolocation is not available.';
         return;
       }
-      this.textContent = 'Locating...'
+      this.textContent = 'Locating...';
             
       // get position
       navigator.geolocation.getCurrentPosition(pos => {
       this.latitude = pos.coords.latitude;
       this.longitude = pos.coords.longitude;
-      this.textContent = 'Your location data is ' + this.latitude + ', ' + this.longitude
+      this.$router.push({name :'MainView',query:{address : this.addr, latitude:this.latitude, longtitude:this.longitude}});
       }, err => {
-      this.textContent = err.message;
-      })
+        console.log(err);
+        //this.textContent = err.message;
+      });
     }//참고: https://e-una.tistory.com/7
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
