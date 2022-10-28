@@ -2,6 +2,7 @@ import traceback
 
 import pymongo as pymongo
 from flask import Blueprint, request, render_template
+from src.Model.control_db import find_all_good_category
 
 from flaskapp.src.Model.control_db import find_all_good, find_price_by_id, find_all_good_by_id, find_good_by_entp
 from flaskapp.src.Service.address import get_location, find_near_entp
@@ -33,6 +34,9 @@ def get_goods_page():
     result = {"latitude": latitude, "longitude": longitude, "goods": data}
     return result
     # return render_template('goods.html',goods_data = data)
+
+
+    # return find_all_good_category()
 
 
 # 결과 지도 화면

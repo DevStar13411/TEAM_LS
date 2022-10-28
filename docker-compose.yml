@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  flask:
+    build: ./TEAM_LS
+    container_name: app
+    depends_on:
+      - mongodb
+    restart: always
+    environment:
+      - APP_NAME=FlaskTest
+    ports:
+      - "5000:5000"
+    command: gunicorn -b 0.0.0.0:5000 manage:app
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - flask
