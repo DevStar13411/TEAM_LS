@@ -16,7 +16,7 @@ def find_item(item, str):
     except:
         return None
 
-# 1. 상품 목록
+# 1.. 상품 목록
 
 def parse_good(item):
     return {
@@ -153,7 +153,7 @@ def price_by_date_Id(date, goodId):
     return row
 
 def load_price():
-    from src.Model.control_db import find_all_good_by_id
+    from flaskapp.src.Model.control_db import find_all_good_by_id
     date = "20220923" # 20220909 20220923 20221007
     row = []
     goodId = find_all_good_by_id()
