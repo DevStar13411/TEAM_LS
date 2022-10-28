@@ -105,3 +105,18 @@ def find_price_by_id(good_id_list, entp_id_list):
     #         pass
 
     return price_row, entp_name, good_name
+
+
+def find_good_by_entp(entp_id_list):
+    collection_good = db.goodlist
+    collect_price = db.price
+
+    good_id_json = list(collect_price.find({"entpId": {"$in": entp_id_list}}, {"goodId": 1, "_id": 0}))
+
+    good_id_list = set([])
+    # goodId 중복 제거
+    for gid in good_id_json:
+        good_id_list.add(gid['goodId'])
+    good_id_list = list(good_id_list)
+
+    return list(collection_good.find({"goodId":{"$in":good_id_list}}, {"goodId": 1, "goodName": 1, "goodSmlclsCode": 1, "_id": 0}))
