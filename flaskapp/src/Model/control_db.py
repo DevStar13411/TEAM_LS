@@ -3,7 +3,7 @@ import time
 from flask import json
 from pymongo import MongoClient
 from config import db_client
-from flaskapp.src.Model.openapi import load_price
+from src.Model.openapi import load_price
 
 client = MongoClient(db_client)
 db = client.zzangbaguni

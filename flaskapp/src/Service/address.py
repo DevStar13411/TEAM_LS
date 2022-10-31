@@ -4,7 +4,7 @@ from haversine import haversine
 
 import config
 
-from flaskapp.src.Model.control_db import find_all_entp, update_entp_pos
+from src.Model.control_db import find_all_entp, update_entp_pos
 
 
 # entp collection의 row -> 지번주소 혹은 도로명 주소를 이용해 (위도, 경도) 추출
