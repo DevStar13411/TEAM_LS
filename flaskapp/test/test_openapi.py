@@ -1,9 +1,10 @@
 
 import time
-import random
 from unittest import TestCase
 
-from flaskapp.src.Model.control_db import find_all_good_by_id, find_entp, find_price_by_id, find_all_good_category
+from flaskapp.src.Model.control_db import find_all_good_by_id, find_entp, find_price_by_id, find_all_good_category, \
+    update_price
+from flaskapp.src.Model.openapi import load_good, trans_jsonfile
 from flaskapp.src.Service.address import update_entp_position, find_near_entp
 
 
@@ -28,7 +29,10 @@ class Test(TestCase):
         print(f"{end - start:.5f} sec")
 
 
-    def test_category(self):
-        i = find_all_good_category()
-        print(i)
+    def test_update(self):
+        # trans_jsonfile("20220909")
+        update_price("20220923")
+        update_price("20221007")
+        update_price("20221021")
+
 

@@ -2,7 +2,7 @@ import traceback
 
 import pymongo as pymongo
 from flask import Blueprint, request, render_template
-from src.Model.control_db import find_all_good_category
+from flaskapp.src.Model.control_db import find_all_good_category
 
 from flaskapp.src.Model.control_db import find_all_good, find_price_by_id, find_all_good_by_id, find_good_by_entp
 from flaskapp.src.Service.address import get_location, find_near_entp

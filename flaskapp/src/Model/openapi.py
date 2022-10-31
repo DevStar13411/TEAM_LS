@@ -3,6 +3,8 @@ from time import sleep
 
 import requests
 from bs4 import BeautifulSoup
+from flask import json
+
 import config
 import datetime
 import pandas as pd
@@ -106,9 +108,9 @@ def entp_load():
 def parse_goodPrice(item):
     return {
         "goodInspectDay": find_item(item, "goodInspectDay"),
-        "entpId": find_item(item, "entpId"),
-        "goodId": find_item(item, "goodId"),
-        "goodPrice": find_item(item, "goodPrice"),
+        "entpId": int(find_item(item, "entpId")),
+        "goodId": int(find_item(item, "goodId")),
+        "goodPrice": int(find_item(item, "goodPrice")),
         "plusoneYn": find_item(item, "plusoneYn"),
         "goodDcYn": find_item(item, "goodDcYn"),
         "inputDttm": find_item(item, "inputDttm"),
@@ -152,26 +154,21 @@ def price_by_date_Id(date, goodId):
 
     return row
 
-def load_price():
+def load_price(date):
     from flaskapp.src.Model.control_db import find_all_good_by_id
-    date = "20220923" # 20220909 20220923 20221007
+    # date = "20221021" # 20220909 20220923 20221007
     row = []
     goodId = find_all_good_by_id()
     for id in goodId:
-        row.append(price_by_date_Id(date, id))
+        row.extend(price_by_date_Id(date, id))
         sleep(0.1) # 트래픽 제한 걸림
-        print(id)
-    print(row)
+
     return row
 
-def trans_csv():
-    row = load_price()
-    keys = row[0].keys()
-
-    with open('test.csv','w',newline='') as output_file:
-        dict_writer = csv.DictWriter(output_file,keys)
-        dict_writer.writeheader()
-        dict_writer.writerows(row)
+def trans_jsonfile(date="20221021"):
+    data = load_price(date)
+    with open('price'+date+'.json','w') as output_file:
+        json.dump(data,output_file,indent="\t", ensure_ascii=False)
 
 
 # 중복 제거
