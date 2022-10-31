@@ -44,7 +44,7 @@ export default {
                 }
             }).then((res)=>{
                 console.log(res);
-                this.goodList = res.data;
+                this.goodList = res.data.goods;
             }).catch((err) => {
                 console.log(err);
             });
