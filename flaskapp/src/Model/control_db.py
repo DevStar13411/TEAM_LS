@@ -1,8 +1,9 @@
 import time
 
+from flask import json
 from pymongo import MongoClient
 from config import db_client
-
+from flaskapp.src.Model.openapi import load_price
 
 client = MongoClient(db_client)
 db = client.zzangbaguni
@@ -38,6 +39,18 @@ def insert_row(coll, add_row):
 def update_entp_pos(id, lat, long):
     collect_entp = db.entplist
     collect_entp.update_one({"entpId": id}, {"$set": {"latitude": lat, "longitude": long}}, upsert=True)
+
+def update_price(date= "20221021"):
+    data = load_price(date)
+    collect_price = db.price
+    cnt = 0
+    # with open("price"+date+".json", "r") as file:
+    #     data = json.load(file)
+    for row in data:
+        collect_price.replace_one({"goodId":row['goodId'],"entpId":row['entpId']},row,upsert=True)
+
+        cnt += 1
+    print(cnt)
 
 
 # 모든 업체 불러오기
