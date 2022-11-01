@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name : 'BoardEdit'
+    name : 'MapView'
 };
 </script>
 
