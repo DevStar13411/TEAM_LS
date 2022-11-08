@@ -1,10 +1,8 @@
-import traceback
 
-import pymongo as pymongo
 from flask import Blueprint, request, render_template
-from src.Model.control_db import find_all_good_category
 
-from src.Model.control_db import find_all_good, find_price_by_id, find_all_good_by_id, find_good_by_entp
+from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_price, find_good, \
+    find_entp
 from src.Service.address import get_location, find_near_entp
 
 main_page = Blueprint("main", __name__, url_prefix='/')
@@ -38,10 +36,26 @@ def get_goods_page():
 
     # return find_all_good_category()
 
+# 가격 정보 호출(개선 후)
+@main_page.route('/prices', methods=['POST'])
+def get_price():
+    # 상품 목록과 현재 위치를 담은 json 파일 받을 예정 -> gid, eid를 통해 가격 결과 출력
 
-# 결과 지도 화면
+    data = request.get_json()
+    good_id_list = data.get("goods")
+    latitude = data.get("latitude")
+    longitude = data.get("longitude")
 
-@main_page.route('/prices', methods=['GET', 'POST'])
+    entp_list = find_near_entp((latitude, longitude))
+    good = find_good(good_id_list)
+    entp = find_entp(entp_list)
+    price = find_price(good_id_list, entp_list)
+
+    p = {"price": price, "entp": entp, "good": good}
+    return p
+
+# 가격 정보 호출(개선 전)
+@main_page.route('/price', methods=['POST'])
 def get_result_page():
     # 상품 목록과 현재 위치를 담은 json 파일 받을 예정 -> gid, eid를 통해 가격 결과 출력
     if request.method == 'POST':
@@ -65,3 +79,5 @@ def get_result_page():
     p = {"price": price, "entp": entp, "good": good}
     return p
     # return render_template('map.html',price = data)
+
+
