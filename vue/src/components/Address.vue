@@ -1,20 +1,15 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class>
     <div>
       <input placeholder="도로명 주소 검색하기" @click="showApi"><button @click="showApi">검색</button><br>
       <a href="#" @click="geofind">현재 위치를 주소지로 설정</a>
-    </div>
-    
+    </div>    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'AddressSearch',
   data() {
     return {
       addr: '',
@@ -80,8 +75,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.hello p input { width:auto;}
-</style>
