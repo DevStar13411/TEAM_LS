@@ -1,7 +1,3 @@
-import multiprocessing
-import time
-from multiprocessing import Pool
-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -9,8 +5,6 @@ from urllib.request import urlopen
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import urllib.request
-
-from src.Model.control_db import find_all_good
 
 
 def set_chrome_driver():
@@ -39,7 +33,7 @@ def search_keyword(driver, keyword):
     try:
         urllib.request.urlretrieve(a, "images/" + keyword + ".jpg")
     except OSError:
-        print("OS: ",keyword)
+        print("OS: ", keyword)
         keyword = keyword.replace('*', ' ')
         urllib.request.urlretrieve(a, "images/" + keyword + ".jpg")
 
@@ -60,21 +54,5 @@ def search_images(rows):
 
 
 def list_chuck(arr, n):
-    div = len(arr)//n
-    return [arr[div*i:div*(i+1)] for i in range(0, n-1)]+[arr[div*(n-1):len(arr)]]
-
-
-if __name__ == '__main__':
-    start = time.time()
-    p_num = 4
-
-    goods = find_all_good()
-    goods_split = list_chuck(goods, p_num)
-
-    with Pool(processes=p_num) as pool:
-        pool.map(search_images, goods_split)
-        pool.close()
-        pool.join()
-    print('Download time : ' + str(time.time() - start)[:5] + ' 초')
-
-
+    div = len(arr) // n
+    return [arr[div * i:div * (i + 1)] for i in range(0, n - 1)] + [arr[div * (n - 1):len(arr)]]

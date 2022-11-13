@@ -3,10 +3,12 @@ from unittest import TestCase
 
 
 from src.Model.control_db import find_all_good_by_id, find_price_by_id, \
-    update_price, find_price, find_good, find_entp
+    update_price, find_price, find_good, find_entp, find_all_good
 
 from src.Service.address import find_near_entp
-
+from src.Service.image import list_chuck, search_images
+import time
+from multiprocessing import Pool
 
 class Test(TestCase):
     def test_main(self):
@@ -47,3 +49,18 @@ class Test(TestCase):
         update_price("20220923")
         update_price("20221007")
         update_price("20221021")
+
+    def test_image(self):
+
+        start = time.time()
+        p_num = 4
+
+        goods = find_all_good()
+        goods_split = list_chuck(goods, p_num)
+
+        with Pool(processes=p_num) as pool:
+            pool.map(search_images, goods_split)
+            pool.close()
+            pool.join()
+        print('Download time : ' + str(time.time() - start)[:5] + ' 초')
+
