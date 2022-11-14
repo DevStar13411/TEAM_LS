@@ -33,8 +33,8 @@ export default {
     },
     methods : {
         getGoodsList() {
-            this.axios.get("http://localhost:5000/goods",{
-            //this.axios.get("https://zzangbaguni.shop/goods",{
+            //this.axios.get("http://localhost:5000/goods",{
+            this.axios.get("https://zzangbaguni.shop/goods",{
                 params: {
                     address: this.$route.query.address,
                     latitude: this.$route.query.latitude,
