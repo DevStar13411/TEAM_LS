@@ -20,7 +20,7 @@ def set_chrome_driver():
     return driver
 
 
-def search_keyword(driver, keyword):
+def search_keyword(driver, keyword, goodId):
     search = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input')
     search.send_keys(keyword)
     search.send_keys(Keys.RETURN)
@@ -29,13 +29,8 @@ def search_keyword(driver, keyword):
                                  '#islrg > div.islrc > div:nth-child(2) > a.wXeWr.islib.nfEiy > div.bRMDJf.islir > img')
 
     a = image[0].get_attribute('src')
+    urllib.request.urlretrieve(a, "images/"+str(goodId)+ ".jpg")
 
-    try:
-        urllib.request.urlretrieve(a, "images/" + keyword + ".jpg")
-    except OSError:
-        print("OS: ", keyword)
-        keyword = keyword.replace('*', ' ')
-        urllib.request.urlretrieve(a, "images/" + keyword + ".jpg")
 
 
 def search_images(rows):
@@ -44,12 +39,13 @@ def search_images(rows):
 
     for row in rows:
         keyword = row["goodName"]
+        goodId = row["goodId"]
         try:
-            search_keyword(driver, keyword)
+            search_keyword(driver, keyword, goodId)
             driver.back()
         except IndexError:
             driver = set_chrome_driver()
-            search_keyword(driver, keyword)
+            search_keyword(driver, keyword, goodId)
             driver.back()
 
 
