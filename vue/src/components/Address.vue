@@ -1,7 +1,8 @@
 <template>
   <div class>
     <div>
-      <input placeholder="도로명 주소 검색하기" @click="showApi"><button @click="showApi">검색</button><br>
+      <input placeholder="도로명 주소 검색하기" @click="showApi">
+      <button type="button" class="btn btn-secondary" @click="showApi">검색 <i class="bi bi-search"></i></button><br/>
       <a href="#" @click="geofind">현재 위치를 주소지로 설정</a>
     </div>    
   </div>
