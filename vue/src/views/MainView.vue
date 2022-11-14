@@ -1,28 +1,26 @@
 <template>
-    <div class="board">
-        <h1>This is Main View</h1>
-        <table>
-            <colgroup>
-				<col style="width:20%">
-				<col style="width:*">
-				<col style="width:25%">
-			</colgroup>
-            <thead>
-                <tr>
-                    <th>상품번호</th>
-                    <th>상품명</th>
-                    <th>상품코드</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in goodList" v-bind:key="item.goodId">
-                    <td>{{item.goodId}}</td>
-                    <td>{{item.goodName}}</td>
-                    <td>{{item.goodSmlclsCode}}</td>
-                </tr>
-            </tbody>
-        </table>
-	</div>
+    <h1>This is Main View</h1>
+    <div class="py-5">
+        <div class="container text-start">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+                <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
+                    <div class="card">
+                        <img class="card-img-top" src="https://picsum.photos/300/500" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{item.goodName}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{item.goodSmlclsCode}}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="itemClick(item)">담기</button>
+                                </div>
+                                <small class="text-muted">가격</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -35,8 +33,8 @@ export default {
     },
     methods : {
         getGoodsList() {
-            //this.axios.get("http://localhost:5000/goods",{
-            this.axios.get("https://zzangbaguni.shop/goods",{
+            this.axios.get("http://localhost:5000/goods",{
+            //this.axios.get("https://zzangbaguni.shop/goods",{
                 params: {
                     address: this.$route.query.address,
                     latitude: this.$route.query.latitude,
@@ -49,6 +47,9 @@ export default {
                 console.log(err);
             });
         },
+        itemClick(item) {
+            this.$router.push({name : 'GoodView', query : {itemNo : item.goodId}});
+        }
     },
     mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
         this.getGoodsList();
@@ -58,9 +59,17 @@ export default {
 </script>
 
 <style scoped>
-.board { width:600px; margin: 20px auto; }
-.board { width:600px; margin: 20px auto; }
-.board table { width:100%; border-top:2px solid #1d4281; border-spacing:0; }
-.board table th { padding:8px 10px 10px 10px; vertical-align:middle; color:#1d4281; font-size:14px; border-bottom:1px solid #ccc; background:#f8f8f8; }
-.board table td { padding:7px 10px 9px 10px; text-align:center; vertical-align:middle; border-bottom:1px solid #ccc; font-size:14px; line-heighT:150%; }
+.card-img-top {
+  height: 15em;
+  object-fit: cover;
+}
+.card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4em;
+  height: 2.8em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 </style>
