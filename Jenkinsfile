@@ -33,7 +33,7 @@ pipeline {
                 sh 'docker ps -a -q --filter name=nginxvue | grep -q . && docker stop nginxvue && docker rm nginxvue'
                 sh 'docker ps -a -q --filter name=gunflask | grep -q . && docker stop gunflask && docker rm gunflask'
                 sh 'docker run -d --network="nginx_network" --name gunflask gunflask'
-                sh 'docker run -d --network="nginx_network" -v /home/ubuntu/ssl/certbot/conf:/etc/nginx/ssl -p 80:80 -p 443:443 --name nginxvue nginxvue'
+                sh 'docker run -d --network="nginx_network" -v /home/ubuntu/ssl/certbot/conf:/etc/nginx/ssl -v /home/ubuntu/static/images:/static/images -p 80:80 -p 443:443 --name nginxvue nginxvue'
             }
         }
         
