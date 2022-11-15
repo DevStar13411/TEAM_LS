@@ -32,7 +32,6 @@ def search_keyword(driver, keyword, goodId):
     urllib.request.urlretrieve(a, "images/"+str(goodId)+ ".jpg")
 
 
-
 def search_images(rows):
     # 상품 목록
     driver = set_chrome_driver()
@@ -52,3 +51,5 @@ def search_images(rows):
 def list_chuck(arr, n):
     div = len(arr) // n
     return [arr[div * i:div * (i + 1)] for i in range(0, n - 1)] + [arr[div * (n - 1):len(arr)]]
+
+
