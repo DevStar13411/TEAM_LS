@@ -5,7 +5,7 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
                     <div class="card">
-                        <img class="card-img-top" src="https://picsum.photos/300/500" alt="">
+                        <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
                         <div class="card-body">
                             <h5 class="card-title">{{item.goodName}}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{item.goodSmlclsCode}}</h6>
