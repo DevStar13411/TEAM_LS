@@ -1,11 +1,11 @@
-
 from flask import Blueprint, request, render_template
 
 from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_price, find_good, \
-    find_entp
+    find_entp, find_good_by_entp_with_category
 from src.Service.address import get_location, find_near_entp
 
 main_page = Blueprint("main", __name__, url_prefix='/')
+
 
 # 메인 화면
 @main_page.route('/')
@@ -13,28 +13,40 @@ def hello_world():
     return render_template('index.html')
 
 
+# 주소 -> 좌표 변환
+@main_page.route('/coordinates', methods=['GET'])
+def get_coord():
+    address = request.args.get('address', default="", type=str)
+    latitude, longitude = get_location(address)
+    result = {"latitude": latitude, "longitude": longitude}
+    return result
+
+
 # 상품 목록
 @main_page.route('/goods', methods=['GET'])
-def get_goods_page():
-    address = request.args.get('address', default="", type=str)
-
-    # 주소 -> 위, 경도로 변환
-    if address:
-        latitude, longitude = get_location(address)
-
-    else:
-        latitude = request.args.get('latitude', default=37.29640641606932, type=float)
-        longitude = request.args.get('longitude', default=126.9776123527779, type=float)
+def get_goods():
+    latitude = request.args.get('latitude', default=37.29640641606932, type=float)
+    longitude = request.args.get('longitude', default=126.9776123527779, type=float)
 
     entp_list = find_near_entp((latitude, longitude))
     data = find_good_by_entp(entp_list)
 
     result = {"latitude": latitude, "longitude": longitude, "goods": data}
     return result
-    # return render_template('goods.html',goods_data = data)
 
 
-    # return find_all_good_category()
+# 상품 목록
+@main_page.route('/goods/<int:category>', methods=['GET'])
+def get_goods_category(category):
+    latitude = request.args.get('latitude', default=37.29640641606932, type=float)
+    longitude = request.args.get('longitude', default=126.9776123527779, type=float)
+
+    entp_list = find_near_entp((latitude, longitude))
+    data = find_good_by_entp_with_category(entp_list, category)
+
+    result = {"latitude": latitude, "longitude": longitude, "goods": data}
+    return result
+
 
 # 가격 정보 호출(개선 후)
 @main_page.route('/prices', methods=['POST'])
@@ -54,6 +66,7 @@ def get_price():
     p = {"price": price, "entp": entp, "good": good}
     return p
 
+
 # 가격 정보 호출(개선 전)
 @main_page.route('/price', methods=['POST'])
 def get_result_page():
@@ -67,7 +80,6 @@ def get_result_page():
     # 테스트 용 임시
     else:
         if request.method == 'GET':
-
             latitude = request.args.get('latitude', default=37.29640641606932, type=float)
             longitude = request.args.get('longitude', default=126.9776123527779, type=float)
 
@@ -79,5 +91,3 @@ def get_result_page():
     p = {"price": price, "entp": entp, "good": good}
     return p
     # return render_template('map.html',price = data)
-
-
