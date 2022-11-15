@@ -1,9 +1,11 @@
 <template>
-  <div class>
+  <div>
     <div>
-      <input placeholder="도로명 주소 검색하기" @click="showApi">
-      <button type="button" class="btn btn-secondary" @click="showApi">검색 <i class="bi bi-search"></i></button><br/>
-      <a href="#" @click="geofind">현재 위치를 주소지로 설정</a>
+      <div class="search">
+        <input type="text" placeholder="도로명 주소 검색하기" @click="showApi">
+        <i class="bi bi-search" style="cursor: pointer;" @click="showApi"></i>
+      </div>
+      <a href="#" @click="geofind" style="font-size: 14px;">현재 위치를 주소지로 설정</a>
     </div>    
   </div>
 </template>
@@ -76,3 +78,27 @@ export default {
   }
 };
 </script>
+
+<style>
+.search {
+  position: relative;
+  width: 300px;
+  margin: auto;
+}
+
+.search input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+.search i {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}
+</style>
