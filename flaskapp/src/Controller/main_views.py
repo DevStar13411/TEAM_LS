@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template
 
-from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_price, find_good, \
-    find_entp, find_good_by_entp_with_category
+from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_all_price, find_good, \
+    find_entp, find_good_by_entp_with_category, new_find_good, new_find_entp, find_price
 from src.Service.address import get_location, find_near_entp
 
 main_page = Blueprint("main", __name__, url_prefix='/')
@@ -50,7 +50,7 @@ def get_goods_category(category):
 
 # 가격 정보 호출(개선 후)
 @main_page.route('/prices', methods=['POST'])
-def get_price():
+def get_prices():
     # 상품 목록과 현재 위치를 담은 json 파일 받을 예정 -> gid, eid를 통해 가격 결과 출력
 
     data = request.get_json()
@@ -61,33 +61,21 @@ def get_price():
     entp_list = find_near_entp((latitude, longitude))
     good = find_good(good_id_list)
     entp = find_entp(entp_list)
-    price = find_price(good_id_list, entp_list)
+    price = find_all_price(good_id_list, entp_list)
 
     p = {"price": price, "entp": entp, "good": good}
     return p
 
 
-# 가격 정보 호출(개선 전)
-@main_page.route('/price', methods=['POST'])
-def get_result_page():
-    # 상품 목록과 현재 위치를 담은 json 파일 받을 예정 -> gid, eid를 통해 가격 결과 출력
-    if request.method == 'POST':
-        data = request.get_json()
-        good_id_list = data.get("goods")
-        latitude = data.get("latitude")
-        longitude = data.get("longitude")
+# 메인페이지에서 가격 확인을 위함
+@main_page.route('/price/<int:id>', methods=['GET'])
+def get_price(id):
 
-    # 테스트 용 임시
-    else:
-        if request.method == 'GET':
-            latitude = request.args.get('latitude', default=37.29640641606932, type=float)
-            longitude = request.args.get('longitude', default=126.9776123527779, type=float)
-
-            good_id_list = find_all_good_by_id()
+    latitude = request.args.get('latitude', default=37.29640641606932, type=float)
+    longitude = request.args.get('longitude', default=126.9776123527779, type=float)
 
     entp_list = find_near_entp((latitude, longitude))
-    price, entp, good = find_price_by_id(good_id_list, entp_list)
+    price = find_price(id, entp_list)
 
-    p = {"price": price, "entp": entp, "good": good}
-    return p
-    # return render_template('map.html',price = data)
+    print(price)
+    return price

@@ -3,7 +3,7 @@ from unittest import TestCase
 
 
 from src.Model.control_db import find_all_good_by_id, find_price_by_id, \
-    update_price, find_price, find_good, find_entp, find_all_good
+    update_price, find_all_price, find_good, find_entp, find_all_good
 
 from src.Service.address import find_near_entp
 from src.Service.image import list_chuck, search_images
@@ -42,13 +42,14 @@ class Test(TestCase):
 
         good = find_good(good_id_list)
         entp = find_entp(entp_id_list)
-        price = find_price(good_id_list, entp_id_list)
+        price = find_all_price(good_id_list, entp_id_list)
 
     def test_update(self):
         # trans_jsonfile("20220909")
-        update_price("20220923")
-        update_price("20221007")
-        update_price("20221021")
+        # update_price("20220923")
+        # update_price("20221007")
+        # update_price("20221021")
+        update_price("20221104")
 
     def test_image(self):
 
@@ -63,4 +64,3 @@ class Test(TestCase):
             pool.close()
             pool.join()
         print('Download time : ' + str(time.time() - start)[:5] + ' 초')
-
