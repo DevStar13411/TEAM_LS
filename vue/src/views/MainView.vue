@@ -1,5 +1,17 @@
 <template>
-    <h1>This is Main View</h1>
+  <nav class="nav nav-pills nav-fill">
+    <a class="nav-link category" @click="getGoodsList()"> 전체</a>
+    <a class="nav-link category" @click="getGoodsList(30101)"> 정육/난류</a>
+    <a class="nav-link category" @click="getGoodsList(30202)"> 수산가공품</a>
+    <a class="nav-link category" @click="getGoodsList(30203)"> 낙농/축산가공품</a>
+    <a class="nav-link category" @click="getGoodsList(30103)"> 생선류</a>
+    <a class="nav-link category" @click="getGoodsList(30204)"> 조미료/장류/식용유</a>
+    <a class="nav-link category" @click="getGoodsList(30102)"> 채소류</a>
+    <a class="nav-link category" @click="getGoodsList(30205)"> 과자/빙과류</a>
+    <a class="nav-link category" @click="getGoodsList(30206)"> 차/음료/주류</a>
+    <a class="nav-link category" @click="getGoodsList(30301)"> 이미용품</a>
+    <a class="nav-link category" @click="getGoodsList(30302)"> 세탁/주방/가사용품</a>
+</nav>
     <div class="py-5">
         <div class="container text-start">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
@@ -8,7 +20,7 @@
                         <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
                         <div class="card-body">
                             <h5 class="card-title">{{item.goodName}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{item.goodSmlclsCode}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{category[parseInt(item.goodSmlclsCode/1000)]}}</h6>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary" @click="itemClick(item)">담기</button>
@@ -28,13 +40,31 @@ export default {
 	name : 'MainView',
     data : function() {
         return {
-            goodList : []
+          goodList : [],
+          category : {
+            30201 : "곡물가공품",
+            30101 : "정육/난류",
+            30202 : "수산가공품",
+            30203 : "낙농/축산가공품",
+            30204 : "조미료/장류/식용유",
+            30102 : "채소류",
+            30205 : "과자/빙과류",
+            30206 : "차/음료/주류",
+            30301 : "이미용품",
+            30302 : "세탁/주방/가사용품",
+            30103 : "생선류"}
+
+
         };
     },
     methods : {
-        getGoodsList() {
-            //this.axios.get("http://localhost:5000/goods",{
-            this.axios.get("https://zzangbaguni.shop/goods",{
+        getGoodsList(category) {
+            let get_url =  "https://zzangbaguni.shop/goods";
+            if(category!==undefined){
+              get_url+= "/"+category;
+            }
+            console.log(get_url);
+            this.axios.get(get_url,{
                 params: {
                     address: this.$route.query.address,
                     latitude: this.$route.query.latitude,
@@ -42,6 +72,7 @@ export default {
                 }
             }).then((res)=>{
                 console.log(res);
+
                 this.goodList = res.data.goods;
             }).catch((err) => {
                 console.log(err);
@@ -49,6 +80,9 @@ export default {
         },
         itemClick(item) {
             this.$router.push({name : 'GoodView', query : {itemNo : item.goodId}});
+        },
+        mouseover(){
+
         }
     },
     mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
@@ -71,5 +105,11 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.category {
+  cursor:pointer;
+  border: 1px solid;
+  color: black;
 }
 </style>
