@@ -171,4 +171,6 @@ def find_price(goodId, entp_id_list):
     price = list(collect_price.find({"entpId": {"$in":entp_id_list}, "goodId": goodId}, \
                                             {"entpId": 1, "goodPrice": 1, "_id": 0}).sort("goodPrice"))
 
+    for row in price:
+        row['entpName'] = entp[row['entpId']]
     return price

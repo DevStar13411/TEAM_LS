@@ -68,14 +68,14 @@ def get_prices():
 
 
 # 메인페이지에서 가격 확인을 위함
-@main_page.route('/price/<int:id>', methods=['GET'])
-def get_price(id):
+@main_page.route('/price/<int:gid>', methods=['GET'])
+def get_price(gid):
 
     latitude = request.args.get('latitude', default=37.29640641606932, type=float)
     longitude = request.args.get('longitude', default=126.9776123527779, type=float)
 
     entp_list = find_near_entp((latitude, longitude))
-    price = find_price(id, entp_list)
+    price = find_price(gid, entp_list)
 
     print(price)
     return price
