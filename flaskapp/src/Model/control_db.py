@@ -29,7 +29,7 @@ def update_entp_pos(id, lat, long):
 
 
 # update 가격 정보 2주 단위로 실행할 수 있도록 작성
-def update_price(date="20221021"):
+def update_price(date):
     data = load_price(date)
     collect_price = db.price
     cnt = 0
@@ -38,7 +38,8 @@ def update_price(date="20221021"):
         collect_price.replace_one({"goodId": row['goodId'], "entpId": row['entpId']}, row, upsert=True)
 
         cnt += 1
-    print(cnt)
+        if cnt//50 == 0:
+            print(cnt)
 
 
 # 모든 업체 불러오기
@@ -123,7 +124,7 @@ def find_good_by_entp(entp_id_list):
 
 # 개선된 업체 정보
 # ex) {123:"롯데마트"}
-def test_entp(entp_id_list):
+def new_find_entp(entp_id_list):
     collect_entp = db.entplist
     entp_name = list(collect_entp.find({"entpId": {"$in": entp_id_list}}, {"entpId": 1, "entpName": 1, "_id": 0}))
     result = {}
@@ -135,7 +136,7 @@ def test_entp(entp_id_list):
 
 # 개선된 상품 정보
 # ex) {991:"새우깡"}
-def test_good(good_id_list):
+def new_find_good(good_id_list):
     collection_good = db.goodlist
     good_name = list(collection_good.find({"goodId": {"$in": good_id_list}}, {"goodId": 1, "goodName": 1, "_id": 0}))
     result = {}
@@ -146,12 +147,12 @@ def test_good(good_id_list):
 
 
 # 상품 id, 주변 업체 id list -> 상품 명, 업체 명, 가격 정보 출력(개선 후)
-def find_price(good_id_list, entp_id_list):
+def find_all_price(good_id_list, entp_id_list):
     collect_price = db.price
 
     result = {}
-    good = test_good(good_id_list)
-    entp = test_entp(entp_id_list)
+    good = new_find_good(good_id_list)
+    entp = new_find_entp(entp_id_list)
 
     for eid in entp_id_list:
         price_row = list(collect_price.find({"entpId": eid, "goodId": {"$in": good_id_list}}, \
@@ -161,3 +162,15 @@ def find_price(good_id_list, entp_id_list):
             price_coll[good[row['goodId']]] = row['goodPrice']
         result[entp[eid]] = price_coll
     return result
+
+
+def find_price(goodId, entp_id_list):
+    collect_price = db.price
+
+    entp = new_find_entp(entp_id_list)
+    price = list(collect_price.find({"entpId": {"$in":entp_id_list}, "goodId": goodId}, \
+                                            {"entpId": 1, "goodPrice": 1, "_id": 0}).sort("goodPrice"))
+
+    for row in price:
+        row['entpName'] = entp[row['entpId']]
+    return price
