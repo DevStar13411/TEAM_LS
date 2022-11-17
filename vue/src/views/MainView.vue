@@ -25,7 +25,22 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary" @click="itemClick(item)">담기</button>
                                 </div>
-                                <small class="text-muted">가격</small>
+                                <small class="text-muted tooltip-price" @mouseover="getPriceList(item.goodId)">가격
+
+                                  <div class="tooltip-text tooltip-bottom">
+                                  <h6>가격정보</h6>
+                                    <table>
+                                      <thead>
+                                        <th>이름</th>
+                                        <th>가격</th>
+                                      </thead>
+                                      <tbody v-for="i in priceList[item.goodId]" v-bind:key="i.entpId">
+                                        <td>{{ i.entpName }}</td>
+                                        <td>{{ i.goodPrice }}</td>
+                                      </tbody>
+                                    </table>
+                                    </div>
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -52,10 +67,10 @@ export default {
             30206 : "차/음료/주류",
             30301 : "이미용품",
             30302 : "세탁/주방/가사용품",
-            30103 : "생선류"}
-
-
+            30103 : "생선류"},
+          priceList : {}
         };
+
     },
     methods : {
         getGoodsList(category) {
@@ -63,7 +78,7 @@ export default {
             if(category!==undefined){
               get_url+= "/"+category;
             }
-            console.log(get_url);
+
             this.axios.get(get_url,{
                 params: {
                     address: this.$route.query.address,
@@ -71,8 +86,6 @@ export default {
                     longtitude: this.$route.query.longtitude
                 }
             }).then((res)=>{
-                console.log(res);
-
                 this.goodList = res.data.goods;
             }).catch((err) => {
                 console.log(err);
@@ -81,8 +94,22 @@ export default {
         itemClick(item) {
             this.$router.push({name : 'GoodView', query : {itemNo : item.goodId}});
         },
-        mouseover(){
+        getPriceList(goodId) {
+          if (this.priceList[goodId] === undefined) {
+            let get_url = "https://zzangbaguni.shop/price";
+            get_url += "/" + goodId;
+            this.axios.get(get_url, {
+              params: {
 
+                latitude: this.$route.query.latitude,
+                longtitude: this.$route.query.longtitude
+              }
+            }).then((res) => {
+              this.priceList[goodId] = res.data;
+            }).catch((err) => {
+              console.log(err);
+            });
+          }
         }
     },
     mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
@@ -112,4 +139,33 @@ export default {
   border: 1px solid;
   color: black;
 }
+
+.tooltip-price .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+
+  background: white;
+  color: black;
+  border : 1px solid;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip-price:hover .tooltip-text {
+  visibility: visible;
+}
+
+table {
+
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
 </style>
