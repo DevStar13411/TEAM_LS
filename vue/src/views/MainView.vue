@@ -1,53 +1,81 @@
 <template>
-  <nav class="nav nav-pills nav-fill">
-    <a class="nav-link category" @click="getGoodsList()"> 전체</a>
-    <a class="nav-link category" @click="getGoodsList(30101)"> 정육/난류</a>
-    <a class="nav-link category" @click="getGoodsList(30202)"> 수산가공품</a>
-    <a class="nav-link category" @click="getGoodsList(30203)"> 낙농/축산가공품</a>
-    <a class="nav-link category" @click="getGoodsList(30103)"> 생선류</a>
-    <a class="nav-link category" @click="getGoodsList(30204)"> 조미료/장류/식용유</a>
-    <a class="nav-link category" @click="getGoodsList(30102)"> 채소류</a>
-    <a class="nav-link category" @click="getGoodsList(30205)"> 과자/빙과류</a>
-    <a class="nav-link category" @click="getGoodsList(30206)"> 차/음료/주류</a>
-    <a class="nav-link category" @click="getGoodsList(30301)"> 이미용품</a>
-    <a class="nav-link category" @click="getGoodsList(30302)"> 세탁/주방/가사용품</a>
-</nav>
-    <div class="py-5">
-        <div class="container text-start">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
-                <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
-                    <div class="card">
-                        <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
-                        <div class="card-body">
-                            <h5 class="card-title">{{item.goodName}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{category[parseInt(item.goodSmlclsCode/1000)]}}</h6>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="itemClick(item)">담기</button>
-                                </div>
-                                <small class="text-muted tooltip-price" @mouseover="getPriceList(item.goodId)">가격
-
-                                  <div class="tooltip-text tooltip-bottom">
-                                  <h6>가격정보</h6>
-                                    <table>
-                                      <thead>
-                                        <th>이름</th>
-                                        <th>가격</th>
-                                      </thead>
-                                      <tbody v-for="i in priceList[item.goodId]" v-bind:key="i.entpId">
-                                        <td>{{ i.entpName }}</td>
-                                        <td>{{ i.goodPrice }}</td>
-                                      </tbody>
-                                    </table>
-                                    </div>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="row">
+    <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList()"> 전체</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30101)"> 정육/난류</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30202)"> 수산가공품</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30203)"> 낙농/축산가공품</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30103)"> 생선류</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30204)"> 조미료/장류/식용유</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30102)"> 채소류</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30205)"> 과자/빙과류</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30206)"> 차/음료/주류</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30301)"> 이미용품</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link category" @click="getGoodsList(30302)"> 세탁/주방/가사용품</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <div class="col-md-9 py-5">
+          <div class="container text-start">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+                  <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
+                      <div class="card">
+                          <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
+                          <div class="card-body">
+                              <h5 class="card-title">{{item.goodName}}</h5>
+                              <h6 class="card-subtitle mb-2 text-muted">{{category[parseInt(item.goodSmlclsCode/1000)]}}</h6>
+                              <div class="d-flex justify-content-between align-items-center">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary" @click="itemClick(item)">담기</button>
+                                  </div>
+                                  <small class="text-muted tooltip-price" @mouseover="getPriceList(item.goodId)">가격
+  
+                                    <div class="tooltip-text tooltip-bottom">
+                                    <h6>가격정보</h6>
+                                      <table>
+                                        <thead>
+                                          <th>이름</th>
+                                          <th>가격</th>
+                                        </thead>
+                                        <tbody v-for="i in priceList[item.goodId]" v-bind:key="i.entpId">
+                                          <td>{{ i.entpName }}</td>
+                                          <td>{{ i.goodPrice }}</td>
+                                        </tbody>
+                                      </table>
+                                      </div>
+                                  </small>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>
