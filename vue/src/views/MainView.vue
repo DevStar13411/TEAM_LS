@@ -27,7 +27,7 @@
                                 </div>
                                 <small class="text-muted tooltip-price" @mouseover="getPriceList(item.goodId)">가격
 
-                                  <div class="tooltip-text tooltip-bottom">
+                                  <div class="tooltip-text">
                                   <h6>가격정보</h6>
                                     <table>
                                       <thead>
@@ -81,9 +81,8 @@ export default {
 
             this.axios.get(get_url,{
                 params: {
-                    address: this.$route.query.address,
                     latitude: this.$route.query.latitude,
-                    longtitude: this.$route.query.longtitude
+                    longitude: this.$route.query.longitude
                 }
             }).then((res)=>{
                 this.goodList = res.data.goods;
@@ -100,9 +99,8 @@ export default {
             get_url += "/" + goodId;
             this.axios.get(get_url, {
               params: {
-
                 latitude: this.$route.query.latitude,
-                longtitude: this.$route.query.longtitude
+                longitude: this.$route.query.longitude
               }
             }).then((res) => {
               this.priceList[goodId] = res.data;

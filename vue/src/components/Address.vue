@@ -21,6 +21,7 @@ export default {
     };
   },
   methods: {
+
     showApi() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -51,12 +52,23 @@ export default {
 
             // 주소 정보를 해당 필드에 넣는다.
             this.addr = fullRoadAddr;
-            console.log(this.addr);
 
-            this.$router.push({name :'MainView',query:{address : this.addr, latitude:this.latitude, longtitude:this.longitude}});
+            this.axios.get("https://zzangbaguni.shop/coordinates",{
+                params: {
+                  address: this.addr
+                }
+            }).then((res)=>{
+                this.latitude = res.data.latitude;
+                this.longitude = res.data.longitude;
+                this.$router.push({name: 'MainView', query: {latitude: this.latitude, longitude: this.longitude}});
+            }).catch((err) => {
+                console.log(err);
+            });
+
         }
       //}).embed(this.$refs.embed) //팝업 띄우기 어려운 모바일 환경일 경우 embed로 띄우기도 가능
       }).open();
+
     },//참고: https://chlost.tistory.com/53
     geofind() {
       if(!("geolocation" in navigator)) {
@@ -69,12 +81,10 @@ export default {
       navigator.geolocation.getCurrentPosition(pos => {
       this.latitude = pos.coords.latitude;
       this.longitude = pos.coords.longitude;
-      this.$router.push({name :'MainView',query:{address : this.addr, latitude:this.latitude, longtitude:this.longitude}});
-      }, err => {
-        console.log(err);
-        //this.textContent = err.message;
+      this.$router.push({name: 'MainView', query: {latitude: this.latitude, longitude: this.longitude}});
       });
     }//참고: https://e-una.tistory.com/7
+
   }
 };
 </script>
