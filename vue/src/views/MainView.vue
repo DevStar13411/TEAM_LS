@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-    <div class="offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;">
+    <div class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;">
       <CartVue v-bind:goodList="goodList"/>
     </div>
   </main>
