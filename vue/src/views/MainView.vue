@@ -21,21 +21,19 @@
         <div class="container text-start">
             <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
-                  <CardVue @put_in_cart = "getCartList" v-bind:item="item"/>
+                  <CardVue v-bind:item="item"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;">
-      <CartVue v-bind:goodList="goodList"/>
-    </div>
+    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/>
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-import CartVue from '@/components/Cart.vue';
+import CartVue from '@/components/AddedProductList.vue';
 
 export default {
 	name : 'MainView',
