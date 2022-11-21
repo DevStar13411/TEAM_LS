@@ -35,7 +35,6 @@ export default {
       if(category!==undefined){
         get_url+= "/"+category;
       }
-
       this.axios.get(get_url,{
         params: {
           address: this.$route.query.address,

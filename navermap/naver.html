@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>짱바구니지도</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bn8fl3z29o"></script>
+	<link rel="stylesheet" href="./mapstyle.css" />
+</head>
+<body>
+<!--form action="http://127.0.0.1:5000/goods?latitude=37.29640641606932&longitude=126.9776123527779
+" method="GET">
+  
+  <input type="submit" />
+</form-->
+
+<!--script>
+var http = require('http'); // node 내장 모듈 불러옴
+
+
+var request = require('request');
+
+var express = require('express');
+var app = express();
+
+function getHeaders(url){
+	return new Promise(resolve=>{
+		request.get({
+			uri:url
+		},function (error, response, body) {
+			//console.log('Status', response.statusCode);
+			//console.log('Headers', JSON.stringify(response.headers));
+			var bdjs = JSON.parse(body); //json으로 파싱
+			console.log(bdjs);
+			var bdstr = JSON.stringify(bdjs);
+			console.log(bdstr);
+			//console.log(bdjs.route.trafast);
+			//distance = bdjs.route.trafast[0].summary.distance;
+			//console.log(distance);
+			
+			//console.log(urlq);
+			//resolve(distance);
+		})	
+	})
+	
+};
+</script-->
+
+
+<div class="map_wrap">
+	<div id="map" ></div>
+
+	<div id="menu_wrap" class="bg_white">
+		<div class="option">
+			<div>
+				<form onsubmit="searchPlaces(); return false;">
+					키워드 : <input type="text" placeholder="test" id="keyword" size="15" /> 
+					<button type="submit">검색하기</button> 
+				</form>
+			</div>
+		</div>
+		<hr>
+		<ul id="placesList"></ul>
+		<div id="pagination"></div>
+	</div>
+	<div id="inputbtn">
+		<input type="text" name="testplace" id="testplace" placeholder="장소입력" onchange="iptest()" />
+
+		<!--input type="button"  value="입력" onclick="getHeaders(http://127.0.0.1:5000/goods?latitude=37.29640641606932&longitude=126.9776123527779)" /-->
+
+		<input type="button" id="bttest" value="현위치로 설정" onclick="" />
+	</div>
+
+
+</div>
+
+
+
+<!--script type="text/javascript" src="./data/testdata.js"></script-->
+
+
+
+
+
+<script>
+//alert(JSON.stringify(data)[0].latitude);
+//alert(testdata3);
+var jsondata = require('./data/data.json');
+alert(jsondata);
+document.addEventListener("DOMContentLoaded", function() { 
+    // DOM 생성이 완료된 후 실행
+	
+});
+
+
+
+
+
+
+var testdata = [{'entpName': '(주)농협하나로유통 수원점', 'latitude': 37.283010817525, 'longitude': 126.966701882092}, 
+{'entpName': '지동시장', 'latitude': 37.2778834438892, 'longitude': 127.019628083403}, 
+{'entpName': '롯데슈퍼탑동점', 'latitude': 37.2754078420904, 'longitude': 126.977377281728, 'testprice':1234}, 
+{'entpName': '롯데마트수원점', 'latitude': 37.2641779524716, 'longitude': 126.997293771381, 'testprice':1214}, 
+{'entpName': '롯데마트천천점', 'latitude': 37.2961284439956, 'longitude': 126.982400667179, 'testprice':1224}, 
+{'entpName': '이마트서수원점', 'latitude': 37.28262996578, 'longitude': 126.97014551047, 'testprice':1233}, 
+{'entpName': '롯데슈퍼G부곡점', 'latitude': 37.3182030396939, 'longitude': 126.9524258854, 'testprice':1334}, 
+{'entpName': '롯데슈퍼당수점', 'latitude': 37.2918677212318, 'longitude': 126.938665143339, 'testprice':2234}, 
+{'entpName': '롯데슈퍼수원경기대점', 'latitude': 37.2996776069529, 'longitude': 127.030200608387, 'testprice':5234}, 
+{'entpName': '롯데슈퍼수원구운점', 'latitude': 37.2831336972268, 'longitude': 126.975032967512, 'testprice':1234}, 
+{'entpName': '롯데슈퍼수원금곡점', 'latitude': 37.2742921846415, 'longitude': 126.936691828467, 'testprice':1234}, 
+{'entpName': '롯데슈퍼수원천천점', 'latitude': 37.2891447975252, 'longitude': 126.978724982892, 'testprice':1284}, 
+{'entpName': '롯데슈퍼수원호매실점', 'latitude': 37.2595870615283, 'longitude': 126.962694753114, 'testprice':1634}, 
+{'entpName': '롯데슈퍼수원화서점', 'latitude': 37.2864250148784, 'longitude': 126.980299104735, 'testprice':1254}, 
+{'entpName': '롯데슈퍼영화점', 'latitude': 37.2927865940472, 'longitude': 127.008555393225, 'testprice':1234}, 
+{'entpName': '롯데슈퍼우만1동점', 'latitude': 37.2851054217419, 'longitude': 127.029004074701}, 
+{'entpName': '롯데슈퍼율전점', 'latitude': 37.3012700271384, 'longitude': 126.972459841823}, 
+{'entpName': '롯데슈퍼성대점', 'latitude': 37.2983492644987, 'longitude': 126.968629419077}, 
+{'entpName': '롯데슈퍼화서3점', 'latitude': 37.2819414405482, 'longitude': 126.994862088116}, 
+{'entpName': '롯데슈퍼정자점', 'latitude': 37.296564685991, 'longitude': 126.995455467239}, 
+{'entpName': '롯데슈퍼탑동3점', 'latitude': 37.2705517314699, 'longitude': 126.979113212089}, 
+{'entpName': '롯데슈퍼파장점', 'latitude': 37.3054316904077, 'longitude': 126.993413410011}, 
+{'entpName': '롯데슈퍼탑동2점', 'latitude': 37.2730375881873, 'longitude': 126.97439599892}, 
+{'entpName': 'GS더프레시수원아트리움점', 'latitude': 37.3096541342515, 'longitude': 126.984746205061}];
+
+
+
+
+var testdata2 = [{'entpId': 805, 'entpName': '롯데마트권선점', 'latitude': 37.2502595331007, 'longitude': 127.034690950669}, {'entpId': 33, 'entpName': '(주)농협하나로유통 수원점', 'latitude': 37.283010817525, 'longitude': 126.966701882092}, {'entpId': 644, 'entpName': '지동시장', 'latitude': 37.2778834438892, 'longitude': 127.019628083403}, {'entpId': 707, 'entpName': '이마트수원점', 'latitude': 37.2505144677203, 'longitude': 127.019638678088}, {'entpId': 731, 'entpName': '롯데슈퍼탑동점', 'latitude': 37.2754078420904, 'longitude': 126.977377281728}, {'entpId': 839, 'entpName': '롯데마트수원점', 'latitude': 37.2641779524716, 'longitude': 126.997293771381}, {'entpId': 867, 'entpName': '롯데마트천천점', 'latitude': 37.2961284439956, 'longitude': 126.982400667179}, {'entpId': 911, 'entpName': '이마트서수원점', 'latitude': 37.28262996578, 'longitude': 126.97014551047}, {'entpId': 1468, 'entpName': '롯데슈퍼수원경기대점', 'latitude': 37.2996776069529, 'longitude': 127.030200608387}, {'entpId': 1469, 'entpName': '롯데슈퍼수원곡반점', 'latitude': 37.2367571270249, 'longitude': 127.029249248137}, {'entpId': 1471, 'entpName': '롯데슈퍼수원구운점', 'latitude': 37.2831336972268, 'longitude': 126.975032967512}, {'entpId': 1475, 'entpName': '롯데슈퍼수원천천점', 'latitude': 37.2891447975252, 'longitude': 126.978724982892}, {'entpId': 1476, 'entpName': '롯데슈퍼수원호매실점', 'latitude': 37.2595870615283, 'longitude': 126.962694753114}, {'entpId': 1477, 'entpName': '롯데슈퍼수원화서점', 'latitude': 37.2864250148784, 'longitude': 126.980299104735}, {'entpId': 1534, 'entpName': '롯데슈퍼영화점', 'latitude': 37.2927865940472, 'longitude': 127.008555393225}, {'entpId': 1549, 'entpName': '롯데슈퍼우만1동점', 'latitude': 37.2851054217419, 'longitude': 127.029004074701}, {'entpId': 1550, 'entpName': '롯데슈퍼우만2점', 'latitude': 37.2848684926994, 'longitude': 127.032312338856}, {'entpId': 1551, 'entpName': '롯데슈퍼우만점', 'latitude': 37.2799898628862, 'longitude': 127.032137505471}, {'entpId': 1561, 'entpName': '롯데슈퍼율전점', 'latitude': 37.3012700271384, 'longitude': 126.972459841823}, {'entpId': 1452, 'entpName': '롯데슈퍼성대점', 'latitude': 37.2983492644987, 'longitude': 126.968629419077}, {'entpId': 1457, 'entpName': '롯데슈퍼세류역점', 'latitude': 37.2439026366121, 'longitude': 127.014375628784}, {'entpId': 1657, 'entpName': '롯데슈퍼화서3점', 'latitude': 37.2819414405482, 'longitude': 126.994862088116}, {'entpId': 1568, 'entpName': '롯데슈퍼인계점', 'latitude': 37.2706301918865, 'longitude': 127.035680505175}, {'entpId': 1597, 'entpName': '롯데슈퍼정자점', 'latitude': 37.296564685991, 'longitude': 126.995455467239}, {'entpId': 1625, 'entpName': '롯데슈퍼탑동3점', 'latitude': 37.2705517314699, 'longitude': 126.979113212089}, {'entpId': 1629, 'entpName': '롯데슈퍼파장점', 'latitude': 37.3054316904077, 'longitude': 126.993413410011}, {'entpId': 1624, 'entpName': '롯데슈퍼탑동2점', 'latitude': 37.2730375881873, 'longitude': 126.97439599892}, {'entpId': 1787, 'entpName': 'GS더프레시수원매탄점', 'latitude': 37.2615332244186, 'longitude': 127.039524210607}];
+
+//testdata=testdata2;
+
+//var testdata = [{'entpName': '(주)농협하나로유통 수원점', 'latitude': 37.283010817525, 'longitude': 126.966701882092}, {'entpName': '지동시장', 'latitude': 37.2778834438892, 'longitude': 127.019628083403}, {'entpName': '롯데슈퍼탑동점', 'latitude': 37.2754078420904, 'longitude': 126.977377281728}, {'entpName': '롯데마트수원점', 'latitude': 37.2641779524716, 'longitude': 126.997293771381}, {'entpName': '롯데마트천천점', 'latitude': 37.2961284439956, 'longitude': 126.982400667179}, {'entpName': '이마트서수원점', 'latitude': 37.28262996578, 'longitude': 126.97014551047}, {'entpName': '롯데슈퍼G부곡점', 'latitude': 37.3182030396939, 'longitude': 126.9524258854}, {'entpName': '롯데슈퍼당수점', 'latitude': 37.2918677212318, 'longitude': 126.938665143339}, {'entpName': '롯데슈퍼수원경기대점', 'latitude': 37.2996776069529, 'longitude': 127.030200608387}, {'entpName': '롯데슈퍼수원구운점', 'latitude': 37.2831336972268, 'longitude': 126.975032967512}, {'entpName': '롯데슈퍼수원금곡점', 'latitude': 37.2742921846415, 'longitude': 126.936691828467}, {'entpName': '롯데슈퍼수원천천점', 'latitude': 37.2891447975252, 'longitude': 126.978724982892}, {'entpName': '롯데슈퍼수원호매실점', 'latitude': 37.2595870615283, 'longitude': 126.962694753114}, {'entpName': '롯데슈퍼수원화서점', 'latitude': 37.2864250148784, 'longitude': 126.980299104735}, {'entpName': '롯데슈퍼영화점', 'latitude': 37.2927865940472, 'longitude': 127.008555393225}, {'entpName': '롯데슈퍼우만1동점', 'latitude': 37.2851054217419, 'longitude': 127.029004074701}, {'entpName': '롯데슈퍼율전점', 'latitude': 37.3012700271384, 'longitude': 126.972459841823}, {'entpName': '롯데슈퍼성대점', 'latitude': 37.2983492644987, 'longitude': 126.968629419077}, {'entpName': '롯데슈퍼화서3점', 'latitude': 37.2819414405482, 'longitude': 126.994862088116}, {'entpName': '롯데슈퍼정자점', 'latitude': 37.296564685991, 'longitude': 126.995455467239}, {'entpName': '롯데슈퍼탑동3점', 'latitude': 37.2705517314699, 'longitude': 126.979113212089}, {'entpName': '롯데슈퍼파장점', 'latitude': 37.3054316904077, 'longitude': 126.993413410011}, {'entpName': '롯데슈퍼탑동2점', 'latitude': 37.2730375881873, 'longitude': 126.97439599892}, {'entpName': 'GS더프레시수원아트리움점', 'latitude': 37.3096541342515, 'longitude': 126.984746205061}];
+
+var avglat = 0, avglng = 0;
+
+//alert(typeof(testdata[0].latitude));
+
+
+for (var i=0; i<testdata.length; i++) {
+	testdata[i].latitude=Number(testdata[i].latitude.toFixed(6));
+	testdata[i].longitude=Number(testdata[i].longitude.toFixed(6));
+	
+	avglat+=testdata[i].latitude;
+	avglng+=testdata[i].longitude;
+	
+}
+avglat/=testdata.length;
+avglng/=testdata.length;
+
+avglat=Number(avglat.toFixed(6));
+avglng=Number(avglng.toFixed(6));
+
+var avgpoint = "("+avglat+","+avglng+")";
+
+//alert(avglat);
+//alert(typeof(testdata[0].latitude));
+
+var index1=0;
+itstrtest = '<span class="markerbg marker_' + String(index1+1) + '"></span>' +'<div class="info">' +'   <h5>' + testdata[0].entpName + '</h5>';
+//alert(itstrtest); <span class="markerbg marker_1"></span><div class="info">   <h5>(주)농협하나로유통 수원점</h5>
+
+
+
+
+var mapOptions = {
+    center: new naver.maps.LatLng(avglat, avglng),
+    maxZoom: 20,
+	zoom: 13,
+	minZoom: 10,
+	zoomControl: true,
+	zoomControlOptions: {
+		position: naver.maps.Position.TOP_RIGHT
+	}
+};
+
+var map = new naver.maps.Map('map', mapOptions);
+
+
+/*
+var locationBtnHtml ='<a href="#" id="demobtn" class="btn_mylct"><span class="spr_trff spr_ico_mylct">NAVER 그린팩토리</span></a>'
+//var locationBtnHtml = document.getElementById('demobtn');
+//alert(locationBtnHtml);
+
+//customControl 객체 이용하기
+    var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+        position: naver.maps.Position.TOP_CENTER
+    });
+
+    customControl.setMap(map);
+
+    naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
+    });
+
+naver.maps.Event.once(map, 'init', function() {
+    //customControl 객체 이용하기
+    var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+        position: naver.maps.Position.TOP_LEFT
+    });
+
+    customControl.setMap(map);
+
+    naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
+    });
+
+    //Map 객체의 controls 활용하기
+    var $locationBtn = $(locationBtnHtml),
+        locationBtnEl = $locationBtn[0];
+    map.controls[naver.maps.Position.RIGHT_CENTER].push(locationBtnEl);
+
+    naver.maps.Event.addDOMListener(locationBtnEl, 'click', function() {
+        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1553971));
+    });
+});*/
+
+
+//var boundtest =  map.getBounds();
+
+//alert(boundtest); ((lat:37.2463606,lng:126.930454), (lat:37.3283056,lng:127.0336225))
+//alert(avgpoint);	(37.287344,126.982038)
+
+
+
+var markerList=[];
+for (var i=0; i<testdata.length; i++) {
+    var icon = {
+            url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+            size: new naver.maps.Size(24, 37),
+            anchor: new naver.maps.Point(12, 37),
+            origin: new naver.maps.Point(0,(i * 46)+10)
+        },
+        marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(testdata[i].latitude,testdata[i].longitude),
+            map: map,
+			title: testdata[i].entpName
+            //icon: icon
+        });
+    marker.set('seq', i);
+
+    markerList.push(marker);
+
+    marker.addListener('mouseover', onMouseOver);
+    marker.addListener('mouseout', onMouseOut);
+    icon = null;
+    marker = null;
+}
+
+var infowindow = new naver.maps.InfoWindow();
+
+
+displayPlaces(testdata,markerList);
+//displayPagination(pagination);
+
+function onMouseOver(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+
+    marker.setIcon({
+        url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+        size: new naver.maps.Size(24, 37),
+        anchor: new naver.maps.Point(12, 37),
+        origin: new naver.maps.Point(0,(seq * 46)+10)
+    });
+	displayInfowindow(marker,marker.title,seq);
+}
+
+function onMouseOut(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+	marker.setIcon();
+	infowindow.close();
+	/*
+    marker.setIcon({
+        url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+        size: new naver.maps.Size(24, 37),
+        anchor: new naver.maps.Point(12, 37),
+        origin: new naver.maps.Point(0,seq * 46)
+	
+    });
+	*/
+}
+// 검색 결과 목록과 마커를 표출하는 함수입니다
+function displayPlaces(places,markers) { //places에는 testdata, markers에는 markerList
+
+    var listEl = document.getElementById('placesList'), 
+    menuEl = document.getElementById('menu_wrap'),
+    fragment = document.createDocumentFragment(), 
+    bounds = new naver.maps.LatLngBounds(), //네이버로바꾸기
+	listStr = '';
+    
+    // 검색 결과 목록에 추가된 항목들을 제거합니다
+    removeAllChildNods(listEl);
+
+    // 지도에 표시되고 있는 마커를 제거합니다
+    //removeMarker(markers);
+    
+    for ( var i=0; i<places.length; i++ ) {
+
+        // 마커를 생성하고 지도에 표시합니다
+        var placePosition = new naver.maps.LatLng(places[i].latitude, places[i].longitude),
+            //marker = addMarker(placePosition, i), 
+            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(placePosition);
+
+        // 마커와 검색결과 항목에 mouseover 했을때
+        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+        // mouseout 했을 때는 인포윈도우를 닫습니다
+		/*
+        (function(marker, title) {
+            kakao.maps.event.addListener(marker, 'mouseover', function() {
+                displayInfowindow(marker, title);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+
+            itemEl.onmouseover =  function () {
+                displayInfowindow(marker, title);
+            };
+
+            itemEl.onmouseout =  function () {
+                infowindow.close();
+            };
+        })(marker, places[i].place_name);
+		*/
+		
+        fragment.appendChild(itemEl);
+    }
+
+    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+    listEl.appendChild(fragment);
+    menuEl.scrollTop = 0;
+
+    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+    map.setBounds(bounds);
+}
+
+// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+function addMarker(position, idx, title) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+        imgOptions =  {
+            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage 
+        });
+
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+    return marker;
+}
+
+
+
+// 검색결과 항목을 Element로 반환하는 함수입니다
+function getListItem(index, places) {
+
+    var el = document.createElement('li'),
+    itemStr = '<span class="markerbg marker_' + String(index+1) + '"></span>' +'<div class="info">' +'   <h5>' + places.entpName + '</h5>';
+
+    if (places.road_address_name) {
+        itemStr += '    <span>' + places.road_address_name + '</span>' +
+                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+    } 
+	else {
+        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+    }
+                 
+    //itemStr += '  <span class="tel">' + places.phone  + '</span>' +'</div>';
+	itemStr += '  <span class="price">' + places.testprice  + '</span>' + '</div>';
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+
+function removeMarker(markers) {
+    for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }   
+    markers = [];
+}
+
+function removeAllChildNods(el) {   
+    while (el.hasChildNodes()) {
+        el.removeChild (el.lastChild);
+    }
+}
+
+// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+function displayPagination(pagination) {
+    var paginationEl = document.getElementById('pagination'),
+        fragment = document.createDocumentFragment(),
+        i; 
+
+    // 기존에 추가된 페이지번호를 삭제합니다
+    while (paginationEl.hasChildNodes()) {
+        paginationEl.removeChild (paginationEl.lastChild);
+    }
+
+    for (i=1; i<=pagination.last; i++) {
+        var el = document.createElement('a');
+        el.href = "#";
+        el.innerHTML = i;
+
+        if (i===pagination.current) {
+            el.className = 'on';
+        } else {
+            el.onclick = (function(i) {
+                return function() {
+                    pagination.gotoPage(i);
+                }
+            })(i);
+        }
+
+        fragment.appendChild(el);
+    }
+    paginationEl.appendChild(fragment);
+}
+
+function displayInfowindow(marker, title, seq) {
+    
+	var content = '<div style="padding:5px;z-index:1;">' + title+'\n price: '+ String(testdata[seq].testprice) +  '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+
+/*
+//원본
+
+
+var mapOptions = {
+    center: new naver.maps.LatLng(37.3614483, 129.1114883),
+    zoom: 16
+};
+var map = new naver.maps.Map('map', mapOptions);
+*/
+
+/* 
+var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(35.854721, 128.482413),
+    title: '테스트입니다테스트',
+    map: map
+});
+
+var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(35.850000, 128.480000),
+    title: '테스트입니다테스트',
+    map: map
+});
+*/
+
+
+/*
+var latlngs = [
+    new naver.maps.LatLng(37.3633324, 129.1054988),
+    new naver.maps.LatLng(37.3632916, 129.1085015),
+    new naver.maps.LatLng(37.3632507, 129.1115043),
+    new naver.maps.LatLng(37.3632097, 129.114507),
+    new naver.maps.LatLng(37.3631687, 129.1175097),
+    new naver.maps.LatLng(37.3597282, 129.105422),
+    new naver.maps.LatLng(37.3596874, 129.1084246),
+    new naver.maps.LatLng(37.3596465, 129.1114272),
+    new naver.maps.LatLng(37.3596056, 129.1144298),
+    new naver.maps.LatLng(37.3595646, 129.1174323)
+];
+*/
+/*
+var latlngs=[(lat:37.3633324,lng:129.1054988),(lat:37.3632916,lng:129.1085015),(lat:37.3632507,lng:129.1115043),(lat:37.3632097,lng:129.114507),(lat:37.3631687,lng:129.1175097),(lat:37.3597282,lng:129.105422),(lat:37.3596874,lng:129.1084246),(lat:37.3596465,lng:129.1114272),(lat:37.3596056,lng:129.1144298),(lat:37.3595646,lng:129.1174323)]
+*/
+
+//alert(latlngs[1].toPoint());
+/*
+var markerList=[];
+
+for (var i=0; i<latlngs.length; i++) {
+    var icon = {
+            url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+            size: new naver.maps.Size(24, 37),
+            anchor: new naver.maps.Point(12, 37),
+            origin: new naver.maps.Point(0,i * 46)
+        },
+        marker = new naver.maps.Marker({
+            position: latlngs[i],
+            map: map,
+            //icon: icon
+        });
+    marker.set('seq', i);
+
+    markerList.push(marker);
+
+    marker.addListener('mouseover', onMouseOver);
+    marker.addListener('mouseout', onMouseOut);
+    icon = null;
+    marker = null;
+}
+
+
+
+function onMouseOver(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+
+    marker.setIcon({
+        url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+        size: new naver.maps.Size(24, 37),
+        anchor: new naver.maps.Point(12, 37),
+        origin: new naver.maps.Point(0,seq * 46)
+    });
+}
+*/
+/*
+function onMouseOut(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+	marker.setIcon();
+	
+    marker.setIcon({
+        url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
+        size: new naver.maps.Size(24, 37),
+        anchor: new naver.maps.Point(12, 37),
+        origin: new naver.maps.Point(0,seq * 46)
+	
+    });
+	
+}
+*/
+
+
+/*
+var contentString = [
+        '<div style="padding:4px 4px;">',
+        '   <div style="font-weight:bold;padding-bottom:3px;">계명대출판부</div>',
+        '   <p>테스트라고<p>',
+        '</div>'
+    ].join('');
+ 
+var infowindow = new naver.maps.InfoWindow({
+    content: contentString
+});
+ 
+naver.maps.Event.addListener(marker, "click", function(e) {
+    if (infowindow.getMap()) {
+        infowindow.close();
+    } else {
+        infowindow.open(map, marker);
+    }
+});
+ 
+infowindow.open(map, marker);
+
+*/
+</script>
+
+</body>
+</html>
