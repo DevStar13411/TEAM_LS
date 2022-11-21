@@ -16,6 +16,7 @@
     </nav>
   </header>
   <main>
+
     <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
     <div class="py-5">
         <div class="container text-start">
@@ -68,9 +69,7 @@ export default {
         console.log(err);
       });
     },
-    itemClick(item) {
-      this.$router.push({name : 'GoodView', query : {itemNo : item.goodId}});
-    },
+
     getPriceList(goodId) {
       if (this.priceList[goodId] === undefined) {
         let get_url = "https://zzangbaguni.shop/price";
@@ -90,7 +89,14 @@ export default {
     getCartList(item){
       this.cartList.add(item);//추가할 제품이 장바구니의 제품과 일치하지 않을 경우, 장바구니에 새로 추가
       console.log(this.cartList);
+    },
+
+    // MapView로 넘어가는 method -> 이후 goods 변경 필요함
+    mapView() {
+      this.$router.push({name: 'MapView', query:
+            {latitude: this.$route.query.latitude, longitude: this.$route.query.longitude, goods:[991,265]}});
     }
+
   },
   mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
     this.getGoodsList();
