@@ -9,7 +9,7 @@
           <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
           ZzangBaguni
         </router-link>
-        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart">
           <i class="bi bi-cart3" style="font-size: 2rem;"></i>
         </button>
       </div>   
@@ -21,10 +21,13 @@
         <div class="container text-start">
             <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
-                  <CardVue v-bind:item="item"/>
+                  <CardVue @put_in_cart = "getCartList" v-bind:item="item"/>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;">
+      <CartVue v-bind:goodList="goodList"/>
     </div>
   </main>
 </template>
@@ -32,17 +35,20 @@
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
+import CartVue from '@/components/Cart.vue';
 
 export default {
 	name : 'MainView',
   components:{
     SideBarVue,
-    CardVue
+    CardVue,
+    CartVue
   },
   data : function() {
     return {
       goodList : [],
-      priceList : {}
+      priceList : {},
+      cartList : new Set([])
     };
   },
   methods : {
@@ -80,6 +86,10 @@ export default {
           console.log(err);
         });
       }
+    },
+    getCartList(item){
+      this.cartList.add(item);//추가할 제품이 장바구니의 제품과 일치하지 않을 경우, 장바구니에 새로 추가
+      console.log(this.cartList);
     }
   },
   mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
