@@ -1,5 +1,5 @@
 <template>
-    <div v-for="item in goodList" v-bind:key="item.goodId">
+    <div class="container" v-for="item in goodList" v-bind:key="item.goodId">
         <div class="card">
             <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
             <div class="card-body">
