@@ -1,7 +1,23 @@
 <template>
-  <div class="row">
-    <SideBarVue @categoryClick="getGoodsList"/>
-    <div class="col-md-9 py-5">
+    <header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container-fluid">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <router-link to="/" class="navbar-brand">
+          <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
+          ZzangBaguni
+        </router-link>
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-cart3" style="font-size: 2rem;"></i>
+        </button>
+      </div>   
+    </nav>
+  </header>
+  <main>
+    <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
+    <div class="py-5">
         <div class="container text-start">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
@@ -10,7 +26,7 @@
             </div>
         </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
