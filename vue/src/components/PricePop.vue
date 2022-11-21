@@ -51,15 +51,17 @@ export default {
 <style>
 .tooltip-price .tooltip-text {
   visibility: hidden;
-  width: 200px;
+  width: 100%;
 
   background: white;
   color: black;
   border : 1px solid;
+
   text-align: center;
   border-radius: 6px;
   padding: 10px;
-
+  top:15px;
+  left:0px;
   position: absolute;
   z-index: 1;
 }
@@ -67,4 +69,17 @@ export default {
 .tooltip-price:hover .tooltip-text {
   visibility: visible;
 }
+
+
+table {
+
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+
 </style>
