@@ -19,7 +19,7 @@
     <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
     <div class="py-5">
         <div class="container text-start">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
                   <CardVue v-bind:item="item"/>
                 </div>
