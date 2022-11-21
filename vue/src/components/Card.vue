@@ -46,7 +46,7 @@ export default {
 <style>
 .card-img-top {
   height: 15em;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 .card-title {
   overflow: hidden;
