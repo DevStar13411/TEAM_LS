@@ -9,7 +9,7 @@
           <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
           ZzangBaguni
         </router-link>
-        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart">
           <i class="bi bi-cart3" style="font-size: 2rem;"></i>
         </button>
       </div>   
@@ -26,20 +26,23 @@
             </div>
         </div>
     </div>
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="cart">
+      <CartVue v-bind:goodList="goodList"/>
+    </div>
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-// import CartVue from '@/components/Cart.vue';
+import CartVue from '@/components/Cart.vue';
 
 export default {
 	name : 'MainView',
   components:{
     SideBarVue,
-    CardVue
-    // CartVue
+    CardVue,
+    CartVue
   },
   data : function() {
     return {
