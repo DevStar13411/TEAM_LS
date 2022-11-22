@@ -1,6 +1,5 @@
 <template>
     <header>
-      <button @click = "mapView">Mapview test</button>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container-fluid">
         <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
