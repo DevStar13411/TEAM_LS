@@ -32,7 +32,7 @@
             <hr/>
           </div>
           <div class="py-5">
-            <button>지도에서 보기</button>
+            <button @click="moveToMap">지도에서 보기</button>
           </div>
         </div>
       </div>
@@ -49,6 +49,9 @@ export default {
     },
     subOrder(cartproduct) {
       this.$store.dispatch("subOrder", cartproduct);
+    },
+    moveToMap() {
+      this.$emit('moveToMap');
     }
   },
 };

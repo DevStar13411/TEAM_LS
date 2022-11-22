@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/>
+    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/>
   </main>
 </template>
 
@@ -88,6 +88,11 @@ export default {
     makeCartList(){
       this.cartList = this.$store.state.cart;
       console.log(this.cartList);
+    },
+    // MapView로 넘어가는 method -> 이후 goods 변경 필요함
+    mapView() {
+      this.$router.push({name: 'MapView', query:
+            {latitude: this.$route.query.latitude, longitude: this.$route.query.longitude, goods:[991,265]}});
     }
   },
   mounted() {//goodlist 컴포넌트가 마운트되면 getGoodList함수 호출
