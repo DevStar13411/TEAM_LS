@@ -1,7 +1,7 @@
-import Vue from 'vue';
+
 import Vuex from 'vuex';
 
-Vue.use(Vuex);
+
 
 export const store = new Vuex.Store({
     // 스토어 객체 옵션 설정
@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
         //'+'버튼 클릭 시
         addOrder({state, commit}, product) {
             // const productItem = state.products.find(item => item.id === product.id);
-            const cartItem = state.cart.find(item => item.goodId === cart.goodId); // 기존의 카트에 존재하면 product가 cartItem이 되는것
+            const cartItem = state.cart.find(item => item.goodId === state.cart.goodId); // 기존의 카트에 존재하면 product가 cartItem이 되는것
             if (!cartItem) {
                 commit('pushProductToCart', product); //추가할 제품이 장바구니의 제품과 일치하지 않을 경우, 장바구니에 새로 추가
             } else {
@@ -68,3 +68,4 @@ export const store = new Vuex.Store({
        
     },
 });
+
