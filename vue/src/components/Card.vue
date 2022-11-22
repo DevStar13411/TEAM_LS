@@ -43,7 +43,7 @@ export default {
     methods : {
         addOrder(item) {
             this.$store.dispatch("addOrder", item);
-            console.log(item);
+            console.log(this.$store.state.cart);
         }
     }   
 };

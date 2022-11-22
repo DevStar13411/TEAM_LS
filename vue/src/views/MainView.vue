@@ -26,27 +26,27 @@
             </div>
         </div>
     </div>
-    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/>
+    <!-- <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/> -->
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-import CartVue from '@/components/AddedProductList.vue';
+// import CartVue from '@/components/AddedProductList.vue';
 
 export default {
 	name : 'MainView',
   components:{
     SideBarVue,
     CardVue,
-    CartVue
+    // CartVue
   },
   data : function() {
     return {
       goodList : [],
       priceList : {},
-      cartList : new Set([])
+      cartList : []
     };
   },
   methods : {
