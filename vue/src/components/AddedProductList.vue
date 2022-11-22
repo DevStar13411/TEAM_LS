@@ -15,15 +15,15 @@
           v-for="(cartproduct, index) in $store.getters.getcartProducts"
         >
           <div class="shopped-imgtitle">
-            <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
-            <div class="shopped-title">{{ cartproduct.title }}</div>
+            <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + cartproduct.goodId + '.jpg'" alt="https://picsum.photos/300/500">
+            <div class="shopped-title">{{ cartproduct.goodName }}</div>
           </div>
           <div id="editquantity">
-            <button @click="subOrder(cartproduct)">-</button>
+            <button @click="addOrder(cartproduct)">+</button>
             <div>
               {{ cartproduct.quantity }}
             </div>
-            <button @click="addOrder(cartproduct)">+</button>
+            <button @click="subOrder(cartproduct)">-</button>
           </div>
         </div>
       </div>

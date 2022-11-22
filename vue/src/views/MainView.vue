@@ -9,7 +9,7 @@
           <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
           ZzangBaguni
         </router-link>
-        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" @click="makeCartList">
           <i class="bi bi-cart3" style="font-size: 2rem;"></i>
         </button>
       </div>   
@@ -26,21 +26,21 @@
             </div>
         </div>
     </div>
-    <!-- <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/> -->
+    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;"/>
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-// import CartVue from '@/components/AddedProductList.vue';
+import CartVue from '@/components/AddedProductList.vue';
 
 export default {
 	name : 'MainView',
   components:{
     SideBarVue,
     CardVue,
-    // CartVue
+    CartVue
   },
   data : function() {
     return {
@@ -85,8 +85,8 @@ export default {
         });
       }
     },
-    getCartList(item){
-      this.cartList.add(item);//추가할 제품이 장바구니의 제품과 일치하지 않을 경우, 장바구니에 새로 추가
+    makeCartList(){
+      this.cartList = this.$store.state.cart;
       console.log(this.cartList);
     }
   },
