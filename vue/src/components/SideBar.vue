@@ -52,8 +52,7 @@ export default {
     },
     methods : {
         clickEventHandler(category) {
-            this.$emit('categoryClick',category.code);
-            console.log(category.code);
+            this.$emit('categoryClick',category);
         }
     }    
 };
