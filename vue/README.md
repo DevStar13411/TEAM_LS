@@ -1,4 +1,6 @@
-# vue
+# 프론트엔드
+
+Vue.js 기반의 프론트엔드입니다.
 
 ## Project setup
 ```
@@ -14,11 +16,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
