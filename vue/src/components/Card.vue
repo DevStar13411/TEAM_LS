@@ -6,7 +6,7 @@
             <h6 class="card-subtitle mb-2 text-muted">{{category[parseInt(item.goodSmlclsCode/1000)]}}</h6>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="clickEventHandler(item)">담기</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="addOrder(item)">담기</button>
                 </div>
                 <PricePop :goodId="item.goodId"/>
             </div>
@@ -41,9 +41,9 @@ export default {
         };
     },
     methods : {
-        clickEventHandler(item) {
-            this.$emit('put_in_cart',item);
-            console.log(item);
+        addOrder(item) {
+            this.$store.dispatch("addOrder", item);
+            console.log(this.$store.state.cart);
         }
     }   
 };

@@ -1,6 +1,5 @@
 <template>
     <header>
-      <button @click = "mapView">Mapview test</button>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container-fluid">
         <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
@@ -10,7 +9,7 @@
           <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
           ZzangBaguni
         </router-link>
-        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" @click="makeCartList">
           <i class="bi bi-cart3" style="font-size: 2rem;"></i>
         </button>
       </div>   
@@ -19,25 +18,24 @@
   <main>
 
     <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
-    <div class="py-5">
+    <h3 class="py-5">{{currentCategory}}</h3>
+    <div>
         <div class="container text-start">
             <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
-                  <CardVue @put_in_cart = "getCartList" v-bind:item="item"/>
+                  <CardVue v-bind:item="item"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;">
-      <CartVue v-bind:goodList="goodList"/>
-    </div>
+    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/>
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-import CartVue from '@/components/Cart.vue';
+import CartVue from '@/components/AddedProductList.vue';
 
 export default {
 	name : 'MainView',
@@ -50,14 +48,16 @@ export default {
     return {
       goodList : [],
       priceList : {},
-      cartList : new Set([])
+      cartList : [],
+      currentCategory : ""
     };
   },
   methods : {
     getGoodsList(category) {
       let get_url =  "https://zzangbaguni.shop/goods";
       if(category!==undefined){
-        get_url+= "/"+category;
+        get_url+= "/"+category.code;
+        this.currentCategory = category.name;
       }
       this.axios.get(get_url,{
         params: {
@@ -87,8 +87,8 @@ export default {
         });
       }
     },
-    getCartList(item){
-      this.cartList.add(item);//추가할 제품이 장바구니의 제품과 일치하지 않을 경우, 장바구니에 새로 추가
+    makeCartList(){
+      this.cartList = this.$store.state.cart;
       console.log(this.cartList);
     },
 
