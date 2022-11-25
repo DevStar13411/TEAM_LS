@@ -35,7 +35,7 @@ export default {
                 this.axios.get(get_url, {
                 params: {
                     latitude: this.$route.query.latitude,
-                    longtitude: this.$route.query.longtitude
+                    longitude: this.$route.query.longitude
                 }
                 }).then((res) => {
                 this.priceList[goodId] = res.data;
