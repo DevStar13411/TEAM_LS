@@ -35,7 +35,7 @@ export default {
 			lng : 0
 		};
 	},
-	methods: {
+	methods : {
 		getPrices() {
 			let get_url =  "https://zzangbaguni.shop/prices";
 
@@ -57,11 +57,36 @@ export default {
 			}).catch((err) => {
 			console.log(err);
 			});
-			console.log(this.entp); //then 밖에서 변경되었는지 테스트
 		},
 
-		getMap() {
+		async getMap() {
 			//현재 이 밑에 주석된 코드에서 testdata대신 this의 값을 받아 올 수 있게 만들어야
+			/***test***/
+			let get_url =  "https://zzangbaguni.shop/prices";
+			
+			let goods = this.$route.query.goods;
+			let goods_int = goods.map(function (x) {
+			return parseInt(x, 10);
+			});
+			let data = {
+				latitude: parseFloat(this.$route.query.latitude),
+				longitude: parseFloat(this.$route.query.longitude),
+				goods: goods_int
+			};
+			
+			
+			
+			var testdata;
+			try{
+				var res = await this.axios.post(get_url,data);
+				testdata=res.data.entp;
+				console.log(testdata);
+			}
+			catch(err){
+				console.log(err);
+			}
+			if(testdata) console.log(testdata);
+			/******/
 			/*for (var i=0; i<testdata.length; i++) {
 				testdata[i].latitude=Number(testdata[i].latitude.toFixed(6));
 				testdata[i].longitude=Number(testdata[i].longitude.toFixed(6));
@@ -75,10 +100,11 @@ export default {
 
 			this.lat=Number(this.lat.toFixed(6));
 			this.lng=Number(this.lng.toFixed(6));
-			*/
+			console.log(this.lng);*/
+			
 			var mapOptions = {
 				//중심설정 부분 this에서 데이터 불러와서 바꿔야
-				//center: new naver.maps.LatLng(this.lat, this.lng),
+				//center: new window.naver.maps.LatLng(this.lat, this.lng),
 				maxZoom: 20,
 				zoom: 13,
 				minZoom: 10,
@@ -87,34 +113,24 @@ export default {
 					position: window.naver.maps.Position.TOP_RIGHT
 				}
 			};
-			new window.naver.maps.Map('map',mapOptions);
-			console.log(this.entp);//test
+			var map = new window.naver.maps.Map('map',mapOptions);
+			
+			var infowindow = new window.naver.maps.InfoWindow();
+			//console.log(this.entp);//test
+			//console.log(window.location.search);//test
+			return [testdata, map, infowindow];
 		},
 		
 		//함수추가중 신경 x
-		formtest(){
-			console.log(this.lng);//test
+		formtest(res){
+			setTimeout(function(){
+				console.log(res);//test
+			},5000);
 		},
-		getcenter(){
-			/*for (var i=0; i<testdata.length; i++) {
-				testdata[i].latitude=Number(testdata[i].latitude.toFixed(6));
-				testdata[i].longitude=Number(testdata[i].longitude.toFixed(6));
-				
-				this.lat+=testdata[i].latitude;
-				this.lng+=testdata[i].longitude;
-				
-			}
-			this.lat/=testdata.length;
-			this.lng/=testdata.length;
-
-			this.lat=Number(this.lat.toFixed(6));
-			this.lng=Number(this.lng.toFixed(6));
-			*/
-
-		},
-		setmarker(){
+		
+		setmarker(testdata,map,infowindow){
 			var markerList=[];
-			/*for (var i=0; i<testdata.length; i++) {
+			for (var i=0; i<testdata.length; i++) {
 				var icon = {
 						url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
 						size: new window.naver.maps.Size(24, 37),
@@ -133,13 +149,9 @@ export default {
 
 				marker.addListener('mouseover', onMouseOver);
 				marker.addListener('mouseout', onMouseOut);
-				icon = null;
+				icon = null; //eslint-disable-line no-unused-vars
 				marker = null;
-			}*/
-			markerList.push("testtest");
-		},
-		//infowindow 관련 서로 변수가 엮이고 밖에 변수설정이 되어있는 경우가 많아서 정리 필요
-		/*displayinfo(){
+			}
 			function onMouseOver(e) {
 				var marker = e.overlay,
 					seq = marker.get('seq');
@@ -150,100 +162,84 @@ export default {
 					anchor: new window.naver.maps.Point(12, 37),
 					origin: new window.naver.maps.Point(0,(seq * 46)+10)
 				});
-				displayInfowindow(marker,marker.title,seq);
-			}
-
-			function onMouseOut(e) {
-				var marker = e.overlay,
-					seq = marker.get('seq');
-				marker.setIcon();
-				infowindow.close();
-			}
-			function displayInfowindow(marker, title, seq) {
-				
-				var content = '<div style="padding:5px;z-index:1;">' + title+'\n price: '+ String(testdata[seq].testprice) +  '</div>';
+				var content = '<div style="padding:5px;z-index:1;">' + marker.title+'\n price: '+ String(testdata[seq].testprice) +  '</div>';
 
 				infowindow.setContent(content);
 				infowindow.open(map, marker);
 			}
-		},*/
-		//리스트에 결과값 넣기 데이터받아서 수정필요
-		/*setlist(){
-			function displayPlaces(places,markers) {
-				var listEl = document.getElementById('placesList'), 
-				menuEl = document.getElementById('menu_wrap'),
-				fragment = document.createDocumentFragment(), 
-				bounds = new window.naver.maps.LatLngBounds(), //네이버로바꾸기
-				listStr = '';
-				
-				// 검색 결과 목록에 추가된 항목들을 제거합니다
-				removeAllChildNods(listEl);
 
-				// 지도에 표시되고 있는 마커를 제거합니다
-				//removeMarker(markers);
-				
-				for ( var i=0; i<places.length; i++ ) {
-
-					// 마커를 생성하고 지도에 표시합니다
-					var placePosition = new window.naver.maps.LatLng(places[i].latitude, places[i].longitude),
-						//marker = addMarker(placePosition, i), 
-						itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-					// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-					// LatLngBounds 객체에 좌표를 추가합니다
-					bounds.extend(placePosition);
-
-					// 마커와 검색결과 항목에 mouseover 했을때
-					// 해당 장소에 인포윈도우에 장소명을 표시합니다
-					// mouseout 했을 때는 인포윈도우를 닫습니다
-					
-					fragment.appendChild(itemEl);
-				}
-
-				// 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-				listEl.appendChild(fragment);
-				menuEl.scrollTop = 0;
-
-				// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-				map.setBounds(bounds);
+			function onMouseOut(e) {
+				var marker = e.overlay,
+					seq = marker.get('seq'); //eslint-disable-line no-unused-vars
+				marker.setIcon();
+				//infowindow.close();
 			}
+			return markerList;
+		},
+		
+		displayPlaces(places,markers,map) {
+			var listEl = document.getElementById('placesList'), 
+			menuEl = document.getElementById('menu_wrap'),
+			fragment = document.createDocumentFragment(), 
+			bounds = new window.naver.maps.LatLngBounds(), 
+			listStr = ''; //eslint-disable-line no-unused-vars
 			
-			function getListItem(index, places) {
+			// 검색 결과 목록에 추가된 항목들을 제거합니다
+			while (listEl.hasChildNodes()) {
+				listEl.removeChild (listEl.lastChild);
+			}
+			// 지도에 표시되고 있는 마커를 제거합니다
+			/*for ( var i = 0; i < markers.length; i++ ) {
+				markers[i].setMap(null);
+			}   
+			markers = [];*/
+			for ( var i=0; i<places.length; i++ ) {
 
-				var el = document.createElement('li'),
-				itemStr = '<span class="markerbg marker_' + String(index+1) + '"></span>' +'<div class="info">' +'   <h5>' + places.entpName + '</h5>';
+				// 마커를 생성하고 지도에 표시합니다
+				var placePosition = new window.naver.maps.LatLng(places[i].latitude, places[i].longitude);
+				//var marker = addMarker(placePosition, i); //추가해야하나
+				var itemEl = document.createElement('li'),
+				itemStr = '<span class="markerbg marker_' + String(i+1) + '"></span>' +'<div class="info">' +'   <h5>' + places[i].entpName + '</h5>';
 
-				if (places.road_address_name) {
-					itemStr += '    <span>' + places.road_address_name + '</span>' +
-								'   <span class="jibun gray">' +  places.address_name  + '</span>';
+				if (places[i].road_address_name) {
+					itemStr += '    <span>' + places[i].road_address_name + '</span>' +
+								'   <span class="jibun gray">' +  places[i].address_name  + '</span>';
 				} 
 				else {
-					itemStr += '    <span>' +  places.address_name  + '</span>'; 
-				}
-							 
-				//itemStr += '  <span class="tel">' + places.phone  + '</span>' +'</div>';
-				itemStr += '  <span class="price">' + places.testprice  + '</span>' + '</div>';
+					itemStr += '    <span>' +  places[i].address_name  + '</span>'; 
+				}				 
+				itemStr += '  <span class="price">' + places[i].testprice  + '</span>' + '</div>';
 
-				el.innerHTML = itemStr;
-				el.className = 'item';
+				itemEl.innerHTML = itemStr;
+				itemEl.className = 'item';
 
-				return el;
+				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+				// LatLngBounds 객체에 좌표를 추가합니다
+				bounds.extend(placePosition);
+
+				
+				fragment.appendChild(itemEl);
 			}
+
+			// 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+			listEl.appendChild(fragment);
+			menuEl.scrollTop = 0;
+			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+			map.setBounds(bounds);
+		}
 			
-			function removeAllChildNods(el) {   
-				while (el.hasChildNodes()) {
-					el.removeChild (el.lastChild);
-				}
-			}
-		}*/
 	},
-	created(){
-		this.getPrices();
-	},
-	mounted() {
-		//this.getcenter();
+	async created(){
+		//this.getPrices();
 		
-		this.getMap();
+	},
+	async mounted() {
+		//this.getcenter();
+		//this.getMap();
+		var test5 = await this.getMap(); //0:testdata 1:map 2:infowindow
+		this.formtest(test5[0]);
+		var list5 = this.setmarker(test5[0],test5[1],test5[2]); //markerlist
+		this.displayPlaces(test5[0],list5,test5[1]);
 	}
 };
 
