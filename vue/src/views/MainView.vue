@@ -9,7 +9,7 @@
           <img alt="Vue logo" src="@/assets/logo_small.png" style="height:40px;" />
           ZzangBaguni
         </router-link>
-        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart" @click="makeCartList">
+        <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#cart">
           <i class="bi bi-cart3" style="font-size: 2rem;"></i>
         </button>
       </div>   
@@ -28,14 +28,15 @@
             </div>
         </div>
     </div>
-    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/>
+    <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" data-bs-scroll="true" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/>
+    <!-- <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/> -->
   </main>
 </template>
 
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-import CartVue from '@/components/codepen.vue';
+import CartVue from '@/components/AddedProductList.vue';
 
 export default {
 	name : 'MainView',
