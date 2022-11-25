@@ -17,20 +17,20 @@
             <li class="nav-item">
               <router-link to="/about" class="nav-link">About</router-link>
             </li>
-            <li class="nav-item">
-              <a href="https://zzangbaguni.shop/map.html" class="nav-link">Map</a>
-            </li>
           </ul>        
         </div>
       </div>   
     </nav>
   </header>
   <main>
-    <div class="home">
-      <img alt="logo" src="../assets/logo_small.png">
-      <h1>Welcome to ZzangBaguni</h1>
-      <div style="margin-top: 15px">
-        <AddressSearch/>
+    <div class="content">
+      <video autoplay="autoplay" loop="loop" muted="muted">
+        <source src="../assets/grocery.mp4" type="video/mp4">
+      </video>
+      <div class="home">
+          <!-- <img alt="logo" src="../assets/logo_small.png"> -->
+          <h1 class="text-white fw-bold">Welcome to ZzangBaguni</h1>
+          <AddressSearch/>
       </div>
     </div>
   </main>
@@ -47,3 +47,30 @@ export default {
   }
 };
 </script>
+
+<style>
+.home {
+  position: absolute;
+  left: 0;
+  bottom: 8%;
+  width: 100%;
+}
+.content {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+.content video {
+  width: 100%;
+  display: block;
+}
+.content:before {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+</style>
