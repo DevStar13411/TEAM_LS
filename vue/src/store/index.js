@@ -26,12 +26,12 @@ export const store = new Vuex.Store({
         	//장바구니에 담긴 아이템이 있을 경우
             const cartItem = state.cart.find(item => item.goodId === product.goodId); // 기존의 카트에 존재하면 product가 cartItem이 되는것
             console.log("cartItem: " +cartItem);
-            if (cartItem.quantity > 0) {
+            if (cartItem.quantity > 1) {
                 commit('decrementItemQuantity', cartItem); //장바구니의 제품 수량 -1
             }
         	//장바구니에 담긴 아이템이 없을 경우
             else {
-                alert("장바구니에 담은 수량 없음");
+                commit('deleteItem', cartItem);
             }
         }
     },
@@ -52,6 +52,9 @@ export const store = new Vuex.Store({
         //쇼핑 카트의 아이템 수량 감소
         decrementItemQuantity(state, cartItem) { 
             cartItem.quantity--;
+        },
+        deleteItem(state, cartItem) {
+            state.cart.splice(state.cart.indexOf(cartItem), 1);
         }
     },
     getters: {

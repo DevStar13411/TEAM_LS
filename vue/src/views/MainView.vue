@@ -35,7 +35,7 @@
 <script>
 import SideBarVue from '@/components/SideBar.vue';
 import CardVue from '@/components/Card.vue';
-import CartVue from '@/components/AddedProductList.vue';
+import CartVue from '@/components/codepen.vue';
 
 export default {
 	name : 'MainView',
