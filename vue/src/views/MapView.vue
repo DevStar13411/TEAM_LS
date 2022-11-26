@@ -94,21 +94,8 @@ export default {
 			return markerList;
 		},		
 		displayPlaces(places,markers,map) {
-			var listEl = document.getElementById('placesList'),
-			bounds = new window.naver.maps.LatLngBounds(), 
-			listStr = ''; //eslint-disable-line no-unused-vars
-			
-			// 검색 결과 목록에 추가된 항목들을 제거합니다
-			while (listEl.hasChildNodes()) {
-				listEl.removeChild (listEl.lastChild);
-			}
-			// 지도에 표시되고 있는 마커를 제거합니다
-			/*for ( var i = 0; i < markers.length; i++ ) {
-				markers[i].setMap(null);
-			}   
-			markers = [];*/
+			var bounds = new window.naver.maps.LatLngBounds();
 			for ( var i=0; i<places.length; i++ ) {
-
 				// 마커를 생성하고 지도에 표시합니다
 				var placePosition = new window.naver.maps.LatLng(places[i].latitude, places[i].longitude);
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -117,13 +104,11 @@ export default {
 			}
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 			map.fitBounds(bounds);
-		}
-			
+		}			
 	},
 	mounted() {
 		let reqBody = {goods: this.$store.getters.getcartProducts, latitude: this.latitude, longitude: this.longitude};
 		this.axios.post("https://zzangbaguni.shop/prices",reqBody).then((res)=>{
-			//console.log(res.data.entp);
 			this.entp = res.data.entp;
 			this.good = res.data.good;
 			this.price = res.data.price;
