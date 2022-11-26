@@ -66,11 +66,16 @@ export const store = new Vuex.Store({
                     // price: product.price,
                     // inventory: product.inventory,
                     goodQuantity: cartItem.quantity,
-                    goodSmlclsCode: cartItem.goodSmlclsCode,
+                    goodSmlclsCode: cartItem.goodSmlclsCode
                 };
             });
+        },
+       getcartOnlyId(state) {
+            return state.cart.map(cartItem => {
+                return cartItem.goodId;
+            });
         }
-       
+
     },
 });
 

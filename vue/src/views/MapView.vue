@@ -3,18 +3,25 @@
 		<main class="d-flex flex-nowrap">
 			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
 				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-					<form  @submit="formtest"><input type="text" placeholder="키워드" id="keyword" style="width: 180px;"/>
-					<button type="submit">검색하기</button>
-					</form>
+
 				</div>
 				<div class="list-group list-group-flush border-bottom scrollarea">
 					<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
 						<div class="d-flex w-100 align-items-center justify-content-between">
 							  <strong class="mb-1">{{place.entpName}}</strong>
-							  <small>Price</small>
+              <div>
+							<small class="warning-products" v-if="place.no_product !== 0">⚠️
+                <div class="warning-text">없는 상품이 존재합니다.</div>
+              </small>
+              <strong>{{place.total_price}}</strong>
+                </div>
 						</div>
 						<div class="col-10 mb-1 small">Address or Distance</div>
-					  </div>
+
+              <div class="d-flex justify-content-end align-items-center">
+                <PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
+              </div>
+            </div>
 				</div>
 				<!-- <div id="pagination"></div> -->
 			</div>
@@ -27,9 +34,12 @@
 </template>
 
 <script>
+
+import PriceDetail from "@/components/PriceDetail";
 export default {
 	name: 'MapView',
-	data() {
+  components: {PriceDetail},
+  data() {
 		return {
 			entp : [],			
 			good : [],
@@ -99,14 +109,60 @@ export default {
 			}
 			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 			map.fitBounds(bounds);
-		}			
+		},
+
+    // this.entp에 총 가격, 가지고 있는 상품 수 체크
+    calculatePrice(){
+      console.log("가격",this.price);
+      let productsInfo = this.$store.getters.getcartProducts;
+
+      for(let idx in this.entp){
+        let row = this.entp[idx];
+        let entpId = row['entpId'];
+        let total = 0; let cnt =0;
+
+        for(let i=0;i<productsInfo.length;i++){
+          let priceItem = this.price[entpId][productsInfo[i]["goodName"]];
+          let QuantityItem = productsInfo[i]["goodQuantity"];
+          if(!isNaN(priceItem*QuantityItem)) {
+            total += priceItem * QuantityItem;
+          }
+          else{
+            cnt++;
+            this.price[entpId][productsInfo[i]["goodName"]] = "-";
+          }
+        }
+        row["total_price"] = total;
+        row["no_product"] = cnt;
+      }
+      this.sorted_entp();
+
+    },
+    // 우선 순위 순으로 정렬
+    // 1. no_product 2. total_price
+    sorted_entp() {
+      this.entp.sort(function (a, b) {
+        if (a.no_product > b.no_product) {
+          return 1;
+        } else if (a.no_product < b.no_product) {
+          return -1;
+        }
+        if (a.total_price > b.total_price) {
+          return 1;
+        } else if (a.total_price < b.total_price) {
+          return -1;
+        }
+      });
+    }
 	},
 	mounted() {
-		let reqBody = {goods: this.$store.getters.getcartProducts, latitude: this.latitude, longitude: this.longitude};
+		let reqBody = {goods: this.$store.getters.getcartOnlyId, latitude: this.latitude, longitude: this.longitude};
+
 		this.axios.post("https://zzangbaguni.shop/prices",reqBody).then((res)=>{
 			this.entp = res.data.entp;
 			this.good = res.data.good;
 			this.price = res.data.price;
+
 			var mapOptions = {
 				//중심설정 부분 this에서 데이터 불러와서 바꿔야
 				center: new window.naver.maps.LatLng(this.latitude, this.longitude),
@@ -125,6 +181,8 @@ export default {
 			var list6 = this.setmarker(this.entp,map,infowindow);
 			//this.formtest(test5[0]);
 			this.displayPlaces(this.entp,list6,map);
+
+      this.calculatePrice();
 		}).catch((err)=>{
 			console.log(err);
 		});
@@ -185,5 +243,29 @@ main {
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
+}
+
+.warning-products:hover .warning-text{
+  visibility: visible;
+}
+.warning-text{
+  visibility: hidden;
+  width: 70%;
+
+  background: #FFFBE5;
+  color: black;
+  border : 1px solid ;
+
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  top:50px;
+  right :10px;
+  position: absolute;
+  z-index: 1;
+}
+
+PriceDetail{
+  text-align:right;
 }
 </style>
