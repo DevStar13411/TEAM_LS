@@ -99,7 +99,7 @@ export default {
     // MapView로 넘어가는 method -> 이후 goods 변경 필요함
     mapView() {
       this.$router.push({name: 'MapView', query:
-        {latitude: this.latitude, longitude: this.longitude, goods:this.$store.getters.getcartProducts}});
+        {latitude: this.latitude, longitude: this.longitude}});
     }
 
   },
