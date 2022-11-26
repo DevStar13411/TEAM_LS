@@ -21,7 +21,7 @@ export default {
     data : function() {
         return {
           categories : [
-            {name:"전체", code:undefined, isActive: true},
+            {name:"전체", code:"", isActive: true},
             {name:"정육/난류", code:"30101", isActive: false},
             {name:"수산가공품", code:"30202", isActive: false},
             {name:"낙농/축산가공품", code:"30203", isActive: false},

@@ -46,6 +46,8 @@ export default {
   },
   data : function() {
     return {
+      latitude: Number(this.$route.query.latitude),
+      longitude: Number(this.$route.query.longitude),
       goodList : [],
       priceList : {},
       cartList : [],
@@ -56,13 +58,15 @@ export default {
     getGoodsList(category) {
       let get_url =  "https://zzangbaguni.shop/goods";
       if(category!==undefined){
-        get_url+= "/"+category.code;
+        if(category.name!=="전체"){
+          get_url+= "/"+category.code;
+        }
         this.currentCategory = category.name;
       }
       this.axios.get(get_url,{
         params: {
-          latitude: this.$route.query.latitude,
-          longitude: this.$route.query.longitude
+          latitude: this.latitude,
+          longitude: this.longitude
         }
       }).then((res)=>{
         this.goodList = res.data.goods;
@@ -77,8 +81,8 @@ export default {
         get_url += "/" + goodId;
         this.axios.get(get_url, {
           params: {
-            latitude: this.$route.query.latitude,
-            longitude: this.$route.query.longitude
+            latitude: this.latitude,
+            longitude: this.longitude
           }
         }).then((res) => {
           this.priceList[goodId] = res.data;
@@ -95,7 +99,7 @@ export default {
     // MapView로 넘어가는 method -> 이후 goods 변경 필요함
     mapView() {
       this.$router.push({name: 'MapView', query:
-            {latitude: this.$route.query.latitude, longitude: this.$route.query.longitude, goods:[991,265]}});
+        {latitude: this.latitude, longitude: this.longitude, goods:this.$store.getters.getcartProducts}});
     }
 
   },
