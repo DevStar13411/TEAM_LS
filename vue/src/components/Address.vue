@@ -17,9 +17,9 @@ export default {
   name: 'AddressSearch',
   data() {
     return {
-      addr: '',
-      latitude: '',
-      longitude: '',
+      addr: String,
+      latitude: Number,
+      longitude: Number,
     };
   },
   methods: {
