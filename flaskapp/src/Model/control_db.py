@@ -151,6 +151,7 @@ def find_all_price(good_id_list, entp_id_list):
     collect_price = db.price
 
     result = {}
+    entp_result = []
     good = new_find_good(good_id_list)
     entp = new_find_entp(entp_id_list)
 
@@ -160,8 +161,12 @@ def find_all_price(good_id_list, entp_id_list):
         price_coll = {}
         for row in price_row:
             price_coll[good[row['goodId']]] = row['goodPrice']
-        result[entp[eid]] = price_coll
-    return result
+        if price_coll:
+            result[eid] = price_coll
+            entp_result.append(eid)
+
+    return result, entp_result
+
 
 
 def find_price(goodId, entp_id_list):

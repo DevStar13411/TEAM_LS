@@ -60,8 +60,8 @@ def get_prices():
 
     entp_list = find_near_entp((latitude, longitude))
     good = find_good(good_id_list)
-    entp = find_entp(entp_list)
-    price = find_all_price(good_id_list, entp_list)
+    price, eid = find_all_price(good_id_list, entp_list)
+    entp = find_entp(eid)
 
     p = {"price": price, "entp": entp, "good": good}
     return p
