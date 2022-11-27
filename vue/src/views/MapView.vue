@@ -3,10 +3,11 @@
 		<main class="d-flex flex-nowrap">
 			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
 				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <div class="app-bar"><img class="logo" src="@/assets/logo_small.png"></div>
 
 				</div>
 				<div class="list-group list-group-flush border-bottom scrollarea">
-					<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
+          <div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
 						<div class="d-flex w-100 align-items-center justify-content-between">
 							  <strong class="mb-1">{{place.entpName}}</strong>
               <div>
@@ -135,12 +136,11 @@ export default {
         row["total_price"] = total;
         row["no_product"] = cnt;
       }
-      this.sorted_entp();
-
+      this.sort_entp();
     },
     // 우선 순위 순으로 정렬
     // 1. no_product 2. total_price
-    sorted_entp() {
+    sort_entp() {
       this.entp.sort(function (a, b) {
         if (a.no_product > b.no_product) {
           return 1;
@@ -153,6 +153,17 @@ export default {
           return -1;
         }
       });
+    },
+    sort_price(){
+      const ordered = Object.keys(this.price).sort().reduce(
+        (obj, key) => {
+          obj[key] = this.price[key];
+          return obj;
+          }, {});
+
+      this.price = ordered;
+      console.log("p",this.price);
+      console.log("or",ordered);
     }
 	},
 	mounted() {

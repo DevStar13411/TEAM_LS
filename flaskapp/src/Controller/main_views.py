@@ -64,7 +64,6 @@ def get_prices():
     entp = find_entp(eid)
 
     p = {"price": price, "entp": entp, "good": good}
-    print(p)
 
     return p
 
