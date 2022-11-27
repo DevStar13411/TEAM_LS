@@ -1,22 +1,22 @@
 <template>
-	<body>
 		<main class="d-flex flex-nowrap">
-			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
+			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 350px;">
 				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <div class="app-bar"><img class="logo" src="@/assets/logo_small.png"></div>
 
 				</div>
 				<div class="list-group list-group-flush border-bottom scrollarea">
-					<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
+          <div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
 						<div class="d-flex w-100 align-items-center justify-content-between">
 							  <strong class="mb-1">{{place.entpName}}</strong>
               <div>
 							<small class="warning-products" v-if="place.no_product !== 0">⚠️
                 <div class="warning-text">없는 상품이 존재합니다.</div>
               </small>
-              <strong>{{place.total_price}}</strong>
+              <strong>{{place.total_price+"원"}}</strong>
                 </div>
 						</div>
-						<div class="col-10 mb-1 small">Address or Distance</div>
+						<strong>{{place.dist+"km"}}</strong>
 
               <div class="d-flex justify-content-end align-items-center">
                 <PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
@@ -29,12 +29,10 @@
 				<div id="map"></div>			
 			</div>
 		</main>
-	</body>
-
 </template>
 
 <script>
-
+import haversine from "haversine-distance";
 import PriceDetail from "@/components/PriceDetail";
 export default {
 	name: 'MapView',
@@ -205,12 +203,12 @@ export default {
         row["total_price"] = total;
         row["no_product"] = cnt;
       }
-      this.sorted_entp();
-
+      this.calculate_dist();
+      this.sort_entp();
     },
     // 우선 순위 순으로 정렬
-    // 1. no_product 2. total_price
-    sorted_entp() {
+    // 1. no_product 2. total_price 3. dist
+    sort_entp() {
       this.entp.sort(function (a, b) {
         if (a.no_product > b.no_product) {
           return 1;
@@ -222,7 +220,20 @@ export default {
         } else if (a.total_price < b.total_price) {
           return -1;
         }
+        if (a.dist > b.dist) {
+          return 1;
+        } else if (a.dist < b.dist) {
+          return -1;
+        }
       });
+    },
+    // 직선 거리 계산
+    calculate_dist() {
+      for(let i in this.entp){
+        let pos = {latitude: this.entp[i].latitude, longitude: this.entp[i].longitude};
+        let nowPos = {latitude: this.latitude, longitude: this.longitude};
+        this.entp[i].dist = Math.round(haversine(pos, nowPos)) / 1000;
+      }
     }
 	},
 	mounted() {
