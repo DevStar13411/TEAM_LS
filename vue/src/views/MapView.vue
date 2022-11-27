@@ -1,23 +1,22 @@
 <template>
 	<body>
 		<main class="d-flex flex-nowrap">
-			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 350px;">
+			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
 				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <div class="app-bar"><img class="logo" src="@/assets/logo_small.png"></div>
 
 				</div>
 				<div class="list-group list-group-flush border-bottom scrollarea">
-          <div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
+					<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
 						<div class="d-flex w-100 align-items-center justify-content-between">
 							  <strong class="mb-1">{{place.entpName}}</strong>
               <div>
 							<small class="warning-products" v-if="place.no_product !== 0">⚠️
                 <div class="warning-text">없는 상품이 존재합니다.</div>
               </small>
-              <strong>{{place.total_price+"원"}}</strong>
+              <strong>{{place.total_price}}</strong>
                 </div>
 						</div>
-						<strong>{{place.dist+"km"}}</strong>
+						<div class="col-10 mb-1 small">Address or Distance</div>
 
               <div class="d-flex justify-content-end align-items-center">
                 <PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
@@ -35,7 +34,7 @@
 </template>
 
 <script>
-import haversine from 'haversine-distance';
+
 import PriceDetail from "@/components/PriceDetail";
 export default {
 	name: 'MapView',
@@ -58,8 +57,74 @@ export default {
 		},		
 		setmarker(testdata,map,infowindow){
 			var markerList=[];
-			for (var i=0; i<testdata.length; i++) {
-				var icon = {
+			
+			var marker1 = new window.naver.maps.Marker({ //eslint-disable-line no-unused-vars
+				position: new window.naver.maps.LatLng(testdata[0].latitude,testdata[0].longitude),
+				map: map,
+				title: testdata[0].entpName,
+				zIndex:2000,
+				icon: {
+					content: [
+								'<div id = "infoshop";">',
+									'<span style="font-size:12px">',
+									testdata[0].entpName,
+									'</span>',
+									'</br>',
+									' price: ',
+									'<span id = "price1">', String(testdata[0].total_price),
+									'</span>',
+									
+								'</div>',
+	'<img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-1024.png"  width="35"/>'
+								
+								
+								
+							].join(''),
+					size: new window.naver.maps.Size(38, 58),
+					anchor: new window.naver.maps.Point(19, 58),
+					
+					//origin: new window.naver.maps.Point(0,(i * 46)+10)
+				}
+				
+			});
+			console.log(marker1);
+	
+			for (var i=1; i<testdata.length; i++) {
+				
+				var marker = new window.naver.maps.Marker({ //eslint-disable-line no-unused-vars
+					position: new window.naver.maps.LatLng(testdata[i].latitude,testdata[i].longitude),
+					map: map,
+					title: testdata[i].entpName,
+					zIndex:2000-i,
+					icon: {
+						content: [
+									'<div id = "infoshop";">',
+										'<span style="font-size:12px">',
+										testdata[i].entpName,
+										'</span>',
+										'</br>',
+										' price: ',
+										 String(testdata[i].total_price),
+										
+										
+									'</div>',
+		'<img src="https://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png"  width="30"/>'
+									
+									
+									
+								].join(''),
+						size: new window.naver.maps.Size(38, 58),
+						anchor: new window.naver.maps.Point(19, 58),
+						//origin: new window.naver.maps.Point(0,(i * 46)+10)
+					}
+					
+				});
+				
+				infowindow.open(map,marker);
+				infowindow.close();
+				markerList.push(marker);
+				
+				/*var icon = {
 						url: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png',
 						size: new window.naver.maps.Size(24, 37),
 						anchor: new window.naver.maps.Point(12, 37),
@@ -69,16 +134,26 @@ export default {
 						position: new window.naver.maps.LatLng(testdata[i].latitude,testdata[i].longitude),
 						map: map,
 						title: testdata[i].entpName,
+						//zIndex: 4
 						//icon: icon
 					});
 				marker.set('seq', i);
+				//marker.setZIndex(1);
 				markerList.push(marker);
-				marker.addListener('mouseover', onMouseOver);
-				marker.addListener('mouseout', onMouseOut);
-				icon = null; //eslint-disable-line no-unused-vars
-				marker = null;
+				var content = '<div style="padding:5px;z-index:1;">' + marker.title+'\n price: '+ String(testdata[i].testprice) +  '</div>';
+				infowindow.setContent(content);
+				infowindow.open(map, marker);*/
+				
+				//marker.addListener('mouseover', onMouseOver);
+				//marker.addListener('mouseout', onMouseOut);
+				//icon = null; //eslint-disable-line no-unused-vars
+				//marker = null;
+				
 			}
-			function onMouseOver(e) {
+			console.log(markerList[3]);
+			
+			//console.log(markerList[1]);
+			/*function onMouseOver(e) {
 				var marker = e.overlay,
 					seq = marker.get('seq');
 				marker.setIcon({
@@ -90,13 +165,7 @@ export default {
 				var content = '<div style="padding:5px;z-index:1;">' + marker.title+'\n price: '+ String(testdata[seq].testprice) +  '</div>';
 				infowindow.setContent(content);
 				infowindow.open(map, marker);
-			}
-			function onMouseOut(e) {
-				var marker = e.overlay,
-					seq = marker.get('seq'); //eslint-disable-line no-unused-vars
-				marker.setIcon();
-				infowindow.close();
-			}
+			}*/
 			return markerList;
 		},		
 		displayPlaces(places,markers,map) {
@@ -104,7 +173,6 @@ export default {
 			for ( var i=0; i<places.length; i++ ) {
 				// 마커를 생성하고 지도에 표시합니다
 				var placePosition = new window.naver.maps.LatLng(places[i].latitude, places[i].longitude);
-
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 				// LatLngBounds 객체에 좌표를 추가합니다
 				bounds.extend(placePosition);
@@ -137,12 +205,12 @@ export default {
         row["total_price"] = total;
         row["no_product"] = cnt;
       }
-      this.calculate_dist();
-      this.sort_entp();
+      this.sorted_entp();
+
     },
     // 우선 순위 순으로 정렬
-    // 1. no_product 2. total_price 3. dist
-    sort_entp() {
+    // 1. no_product 2. total_price
+    sorted_entp() {
       this.entp.sort(function (a, b) {
         if (a.no_product > b.no_product) {
           return 1;
@@ -154,30 +222,19 @@ export default {
         } else if (a.total_price < b.total_price) {
           return -1;
         }
-        if (a.dist > b.dist) {
-          return 1;
-        } else if (a.dist < b.dist) {
-          return -1;
-        }
       });
-    },
-    // 직선 거리 계산
-    calculate_dist() {
-      for(let i in this.entp){
-        let pos = {latitude: this.entp[i].latitude, longitude: this.entp[i].longitude};
-        let nowPos = {latitude: this.latitude, longitude: this.longitude};
-        this.entp[i].dist = Math.round(haversine(pos, nowPos)) / 1000;
-      }
     }
 	},
 	mounted() {
 		let reqBody = {goods: this.$store.getters.getcartOnlyId, latitude: this.latitude, longitude: this.longitude};
-
+		
 		this.axios.post("https://zzangbaguni.shop/prices",reqBody).then((res)=>{
 			this.entp = res.data.entp;
 			this.good = res.data.good;
 			this.price = res.data.price;
-
+			console.log(this.entp);
+			this.calculatePrice();
+			console.log(this.entp);
 			var mapOptions = {
 				//중심설정 부분 this에서 데이터 불러와서 바꿔야
 				center: new window.naver.maps.LatLng(this.latitude, this.longitude),
@@ -191,13 +248,15 @@ export default {
 				draggable: true
 			};
 			var map = new window.naver.maps.Map('map',mapOptions);
-			var infowindow = new window.naver.maps.InfoWindow();
+			console.log(map);//
+			var infowindow = new window.naver.maps.InfoWindow(); 
+			console.log(infowindow);
 			//return [testdata, map, infowindow];
 			var list6 = this.setmarker(this.entp,map,infowindow);
 			//this.formtest(test5[0]);
 			this.displayPlaces(this.entp,list6,map);
 
-      this.calculatePrice();
+			
 		}).catch((err)=>{
 			console.log(err);
 		});
@@ -211,6 +270,8 @@ export default {
 .map_wrap {position:relative;width:100%;height:600px;} */
 /* #map {float:right;width:80%;height:600px;} */
 #map {width:100%;height:100vh;}
+#infoshop {border-style: solid; border-radius:10px /10px; padding:0px 2px;background:rgba( 255, 255, 255, 0.5 );font-size:10px}
+#price1  {color:red;}
 /* #menu_wrap {position:fixed;top:0;left:0;bottom:10px;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
