@@ -1,7 +1,7 @@
 <template>
 	<body>
 		<main class="d-flex flex-nowrap">
-			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
+			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 350px;">
 				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
           <div class="app-bar"><img class="logo" src="@/assets/logo_small.png"></div>
 
