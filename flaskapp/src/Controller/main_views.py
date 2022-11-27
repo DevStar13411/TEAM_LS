@@ -63,9 +63,9 @@ def get_prices():
     good = find_good(good_id_list)
     price, eid = find_all_price(good_id_list, entp_list)
     entp = find_entp(eid)
-    for row in entp:
-        row['distance']=naver_driving(str(row['longitude'])+","+str(row['latitude']),
-                      str(longitude) + "," + str(latitude))
+    # for row in entp:
+        # row['distance']=naver_driving(str(row['longitude'])+","+str(row['latitude']),
+        #               str(longitude) + "," + str(latitude))
 
     p = {"price": price, "entp": entp, "good": good}
     return p

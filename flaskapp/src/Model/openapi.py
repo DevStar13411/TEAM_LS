@@ -189,7 +189,7 @@ def naver_driving(start,goal):
     url = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving'
     headers = {
         'X-NCP-APIGW-API-KEY-ID': "bn8fl3z29o",
-        'X-NCP-APIGW-API-KEY': config.naver_key
+        # 'X-NCP-APIGW-API-KEY': config.naver_key
     }
     params = {
         'start': start,
