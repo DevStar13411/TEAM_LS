@@ -320,17 +320,14 @@ export default {
 .scrollarea {
   overflow-y: auto;
 }
-main {
+.main {
   height: 100vh;
   height: -webkit-fill-available;
   max-height: 100vh;
   overflow-x: auto;
   overflow-y: hidden;
 }
-body {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-}
+
 
 .warning-products:hover .warning-text{
   visibility: visible;
