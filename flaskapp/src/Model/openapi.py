@@ -184,3 +184,18 @@ def erase_dup(row):
 
     return li_drop
 
+
+def naver_driving(start,goal):
+    url = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving'
+    headers = {
+        'X-NCP-APIGW-API-KEY-ID': "bn8fl3z29o",
+        'X-NCP-APIGW-API-KEY': config.naver_key
+    }
+    params = {
+        'start': start,
+        'goal': goal,
+        'option': 'trafast'
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+    return response.json()["route"]["trafast"][0]["summary"]["distance"]

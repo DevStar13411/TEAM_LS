@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template
 
+from Model.openapi import naver_driving
 from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_all_price, find_good, \
     find_entp, find_good_by_entp_with_category, new_find_good, new_find_entp, find_price
 from src.Service.address import get_location, find_near_entp
@@ -62,9 +63,11 @@ def get_prices():
     good = find_good(good_id_list)
     price, eid = find_all_price(good_id_list, entp_list)
     entp = find_entp(eid)
+    for row in entp:
+        row['distance']=naver_driving(str(row['longitude'])+","+str(row['latitude']),
+                      str(longitude) + "," + str(latitude))
 
     p = {"price": price, "entp": entp, "good": good}
-
     return p
 
 
@@ -78,5 +81,4 @@ def get_price(gid):
     entp_list = find_near_entp((latitude, longitude))
     price = find_price(gid, entp_list)
 
-    print(price)
     return price
