@@ -1,35 +1,33 @@
 <template>
-	<body>
-		<main class="d-flex flex-nowrap">
-			<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
-				<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+	<main class="d-flex flex-nowrap">
+		<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 300px;">
+			<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
 
-				</div>
-				<div class="list-group list-group-flush border-bottom scrollarea">
-					<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
-						<div class="d-flex w-100 align-items-center justify-content-between">
-							  <strong class="mb-1">{{place.entpName}}</strong>
-              <div>
-							<small class="warning-products" v-if="place.no_product !== 0">⚠️
-                <div class="warning-text">없는 상품이 존재합니다.</div>
-              </small>
-              <strong>{{place.total_price}}</strong>
-                </div>
-						</div>
-						<div class="col-10 mb-1 small">Address or Distance</div>
+			</div>
+			<div class="list-group list-group-flush border-bottom scrollarea">
+				<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
+					<div class="d-flex w-100 align-items-center justify-content-between">
+						  <strong class="mb-1">{{place.entpName}}</strong>
+		  <div>
+						<small class="warning-products" v-if="place.no_product !== 0">⚠️
+			<div class="warning-text">없는 상품이 존재합니다.</div>
+		  </small>
+		  <strong>{{place.total_price}}</strong>
+			</div>
+					</div>
+					<div class="col-10 mb-1 small">Address or Distance</div>
 
-              <div class="d-flex justify-content-end align-items-center">
-                <PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
-              </div>
-            </div>
-				</div>
-				<!-- <div id="pagination"></div> -->
+		  <div class="d-flex justify-content-end align-items-center">
+			<PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
+		  </div>
+		</div>
 			</div>
-			<div class="col">
-				<div id="map"></div>			
-			</div>
-		</main>
-	</body>
+			<!-- <div id="pagination"></div> -->
+		</div>
+		<div class="col">
+			<div id="map"></div>			
+		</div>
+	</main>
 
 </template>
 
@@ -233,14 +231,13 @@ export default {
 .scrollarea {
   overflow-y: auto;
 }
-main {
+
+.main {
   height: 100vh;
   height: -webkit-fill-available;
   max-height: 100vh;
   overflow-x: auto;
   overflow-y: hidden;
-}
-body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
