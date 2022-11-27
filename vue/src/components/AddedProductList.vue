@@ -20,6 +20,7 @@
               .button(@click="subOrder(item)") &lt;
               .number {{item.goodQuantity}}
               .button(@click="addOrder(item)") &gt;
+              .button_delete(@click="delOrder(item)") X
 
     .button(class="btn btn-primary mt-4" v-if="$store.getters.getcartProducts.length != 0" @click="moveToMap").text 지도에서 보기
     
@@ -35,6 +36,9 @@ export default {
     },
     subOrder(cartproduct) {
       this.$store.dispatch("subOrder", cartproduct);
+    },
+    delOrder(cartproduct){
+      this.$store.dispatch("delOrder", cartproduct);
     },
     moveToMap() {
       this.$emit('moveToMap');
@@ -267,7 +271,7 @@ body {
 
       .button {
         cursor: pointer;
-        margin-left: 50px;
+        margin-left: 40px;
         width: 28px;
         height: 28px;
         border-radius: 100%;
@@ -278,6 +282,26 @@ body {
         justify-content: center;
         align-items: center;
         transition: 0.2s;
+        user-select: none;
+
+        &:hover {
+          background-color: #ddd;
+        }
+      }
+
+      .button_delete {
+        cursor: pointer;
+        margin-left: 40px;
+        width: 20px;
+        height: 20px;
+        border-radius: 30%;
+        background-color: rgb(241, 89, 89);
+        font-size: 10px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.1s;
         user-select: none;
 
         &:hover {
@@ -370,7 +394,7 @@ body {
   }
 
   &-leave-active {
-    transition: 0.7s cubic-bezier(0.79, 0.01, 0.22, 1);
+    transition: 0.3s cubic-bezier(0.79, 0.01, 0.22, 1);
     position: absolute;
   }
 
@@ -380,7 +404,7 @@ body {
   }
 
   &-move {
-    transition: 0.7s cubic-bezier(0.79, 0.01, 0.22, 1);
+    transition: 0.3s cubic-bezier(0.79, 0.01, 0.22, 1);
   }
 }
 
