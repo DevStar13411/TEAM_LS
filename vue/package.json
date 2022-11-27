@@ -12,6 +12,7 @@
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.2",
     "core-js": "^3.8.3",
+    "haversine-distance": "^1.2.1",
     "vue": "^3.2.36",
     "vue-geolocation-api": "^0.1.21",
     "vue-router": "^4.0.3",
