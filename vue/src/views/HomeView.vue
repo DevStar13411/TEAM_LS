@@ -93,7 +93,7 @@ main h1 {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	background: var(--primary-color) url('https://traversymedia.com/downloads/cover.jpg') no-repeat center
+	background: url('@/assets/thumbnail.jpg') no-repeat center
   center/cover;
 }
 
