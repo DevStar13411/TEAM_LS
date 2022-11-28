@@ -53,7 +53,7 @@ export default {
       goodList : [],
       priceList : {},
       cartList : [],
-      currentCategory : ""
+      currentCategory : "전체"
     };
   },
   methods : {
