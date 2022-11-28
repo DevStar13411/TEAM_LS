@@ -90,12 +90,12 @@ export default {
 			var mainicon1 = {
 				content: 	['<div>',
 								'<div id = "infoshop";>',
-									'<span style="font-size:12px">',
+									'<span style="font-size:12px; font-family:"Malgun Gothic", sans-serif">',
 									testdata[0].entpName,
 									'</span>',
 									'</br>',
 									' 💸 ',
-									'<span id = "price1">', String(testdata[0].total_price.toLocaleString('ko-KR')),'원',
+									'<span id = "price1" style= "font-family:"Malgun Gothic", sans-serif">', String(testdata[0].total_price.toLocaleString('ko-KR')),'원',
 									'</span>',
 									
 								'</div>',
@@ -138,7 +138,7 @@ export default {
 				var mainicon = {
 						content: [
 									'<div id = "infoshop";">',
-										'<span style="font-size:12px">',
+										'<span style="font-size:12px;"Malgun Gothic", sans-serif">',
 										testdata[i].entpName,
 										'</span>',
 										'</br>',
