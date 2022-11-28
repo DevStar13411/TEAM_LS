@@ -94,8 +94,8 @@ export default {
 									testdata[0].entpName,
 									'</span>',
 									'</br>',
-									' price: ',
-									'<span id = "price1">', String(testdata[0].total_price),
+									' 💸 ',
+									'<span id = "price1">', String(testdata[0].total_price),'원',
 									'</span>',
 									
 								'</div>',
@@ -142,8 +142,8 @@ export default {
 										testdata[i].entpName,
 										'</span>',
 										'</br>',
-										' price: ',
-										 String(testdata[i].total_price),
+										' 💸 ',
+										 String(testdata[i].total_price),'원',
 										
 										
 									'</div>',
@@ -378,8 +378,8 @@ export default {
 .map_wrap {position:relative;width:100%;height:600px;} */
 /* #map {float:right;width:80%;height:600px;} */
 #map {width:100%;height:100vh;}
-#infoshop {border-style: solid; border-radius:10px /10px; padding:0px 2px;background:rgba( 255, 255, 255, 1 );font-size:10px; float:right;}
-#infoshop:hover{z-index:10;color:red;}
+#infoshop {border:3px solid #0475F4; border-radius:10px /10px; padding:0px 2px;background:rgba( 255, 255, 255, 1 );font-size:10px; float:right;}
+#infoshop:hover{z-index:10;color:#0475F4;}
 #mkimg {z-index:0;}
 #price1  {color:red;}
 /* #menu_wrap {position:fixed;top:0;left:0;bottom:10px;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
