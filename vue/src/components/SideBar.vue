@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark col-md-3 col-lg-2 d-md-block sidebar collapse" style="width: 280px;">
+  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark col-md-3 col-lg-2 d-md-block sidebar collapse overflow-auto" style="width: 280px;">
     <a class="align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <i class="bi bi-bucket" style="font-size: 1.5rem;"></i>
         <span class="fs-4"> 카테고리</span>
