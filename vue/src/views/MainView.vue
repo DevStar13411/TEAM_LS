@@ -18,7 +18,7 @@
   <main>
 
     <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
-    <h3 class="py-5">{{currentCategory}}</h3>
+    <h3 class="py-4 mb-0 mt-2">{{currentCategory}}</h3>
     <div>
       <div class="container text-start">
       <hr/>
