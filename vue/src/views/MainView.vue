@@ -20,13 +20,14 @@
     <SideBarVue class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sidebar" @categoryClick="getGoodsList"/>
     <h3 class="py-5">{{currentCategory}}</h3>
     <div>
-        <div class="container text-start">
-            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
-                  <CardVue v-bind:item="item"/>
-                </div>
-            </div>
+      <div class="container text-start">
+      <hr/>
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+          <div class="col my-2" v-for="item in goodList" v-bind:key="item.goodId">
+            <CardVue v-bind:item="item"/>
+          </div>
         </div>
+      </div>
     </div>
     <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" data-bs-scroll="true" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/>
     <!-- <CartVue class="container offcanvas offcanvas-end navbar-nav-scroll" tabindex="-1" id="cart" style="max-height: 100%;" @moveToMap="mapView"/> -->
@@ -52,7 +53,7 @@ export default {
       goodList : [],
       priceList : {},
       cartList : [],
-      currentCategory : ""
+      currentCategory : "전체"
     };
   },
   methods : {

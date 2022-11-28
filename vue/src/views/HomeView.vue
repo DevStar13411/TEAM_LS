@@ -122,19 +122,4 @@ main h1 {
   z-index: 2;
 }
 
-.btn {
-  display: inline-block;
-	padding: 10px 30px;
-	background: var(--primary-color);
-	color: #fff;
-	border-radius: 5px;
-	border: solid #fff 1px;
-	margin-top: 25px;
-	opacity: 0.7;
-}
-
-.btn:hover {
-  transform: scale(0.98);
-}
-
 </style>
