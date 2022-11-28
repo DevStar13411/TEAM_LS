@@ -12,7 +12,7 @@
 								<small class="warning-products" v-if="place.no_product !== 0">⚠️
 								<div class="warning-text">없는 상품이 존재합니다.</div>
 								</small>
-								<strong>{{place.total_price+"원"}}</strong>
+								<strong>{{place.total_price.toLocaleString('ko-KR')+"원"}}</strong>
 							</div>
 						</div>
 						<strong>{{place.distance/1000+"km"}}</strong>
@@ -95,7 +95,7 @@ export default {
 									'</span>',
 									'</br>',
 									' 💸 ',
-									'<span id = "price1">', String(testdata[0].total_price),'원',
+									'<span id = "price1">', String(testdata[0].total_price.toLocaleString('ko-KR')),'원',
 									'</span>',
 									
 								'</div>',
@@ -143,7 +143,7 @@ export default {
 										'</span>',
 										'</br>',
 										' 💸 ',
-										 String(testdata[i].total_price),'원',
+										 String(testdata[i].total_price.toLocaleString('ko-KR')),'원',
 										
 										
 									'</div>',
