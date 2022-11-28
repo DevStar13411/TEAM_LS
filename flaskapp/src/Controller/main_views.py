@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template
 
-from Model.openapi import naver_driving
+from src.Model.openapi import naver_driving
 from src.Model.control_db import find_price_by_id, find_all_good_by_id, find_good_by_entp, find_all_price, find_good, \
     find_entp, find_good_by_entp_with_category, new_find_good, new_find_entp, find_price
 from src.Service.address import get_location, find_near_entp

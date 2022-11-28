@@ -23,10 +23,30 @@
 					</div>
 				</div>
 			</div>
-			<div class="col">
-				<div id="map"></div>			
+			<div class="list-group list-group-flush border-bottom scrollarea">
+				<div v-for="place in entp" v-bind:key="place.entpId" class="list-group-item list-group-item-action py-3 lh-sm" >
+					<div class="d-flex w-100 align-items-center justify-content-between">
+						  <strong class="mb-1">{{place.entpName}}</strong>
+		  <div>
+						<small class="warning-products" v-if="place.no_product !== 0">⚠️
+			<div class="warning-text">없는 상품이 존재합니다.</div>
+		  </small>
+		  <strong>{{place.total_price}}</strong>
 			</div>
-		</main>
+					</div>
+					<div class="col-10 mb-1 small">Address or Distance</div>
+
+		  <div class="d-flex justify-content-end align-items-center">
+			<PriceDetail v-bind:priceInfo="this.price[place.entpId]"></PriceDetail>
+		  </div>
+		</div>
+			</div>
+			<!-- <div id="pagination"></div> -->
+		</div>
+		<div class="col">
+			<div id="map"></div>			
+		</div>
+	</main>
 </template>
 
 <script>
@@ -416,6 +436,7 @@ export default {
 .scrollarea {
   overflow-y: auto;
 }
+
 .main {
   height: 100vh;
   height: -webkit-fill-available;
@@ -423,7 +444,6 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
 }
-
 
 .warning-products:hover .warning-text{
   visibility: visible;

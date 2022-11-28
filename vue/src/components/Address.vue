@@ -5,8 +5,8 @@
         <input type="text" placeholder="도로명 주소 검색하기" @click="showApi">
         <i class="bi bi-search" style="cursor: pointer;" @click="showApi"></i>
       </div>
-      <div class="my-2">
-        <a href="#" @click="geofind" style="font-size: 14px; color: #42b983;">현재 위치를 주소지로 설정</a>
+      <div>
+        <a href="#" @click="geofind" style="font-size: 14px; color: #42b983; text-decoration: none;">현재 위치를 주소지로 설정</a>
       </div>
     </div>    
   </div>
