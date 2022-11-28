@@ -1,19 +1,19 @@
 <template>
     <div class="card">
-        <img class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
-        <div class="card-body">
-            <h5 class="card-title">{{item.goodName}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{category[parseInt(item.goodSmlclsCode/1000)]}}</h6>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <!-- <button v-if = "notInCart(item)" type="button" class="btn btn-sm btn-outline-secondary" @click="addOrder(item)">담기</button> -->
-                    <!-- 장바구니에 있으면 비활성화 -->
-                    <button  type="button" v-if = "canAddToCart(item)" class="btn btn-sm btn-outline-secondary" @click="addOrder(item)">담기</button>
-                    <button  type="button" disabled ="true" class="btn btn-sm btn-outline-secondary" v-else>담기</button>
-                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary" @click="addOrder(item)">담기</button> -->
+        <div  style="position: relative;">
+            <img style="position: relative;" class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
+            <div>
+                <div style="position: absolute; bottom: 5%; right: 5%;">
+                    <img src="@/assets/cart.png" style="height: 50px; width: 50px; cursor: pointer;" @click="addOrder(item)">
                 </div>
-                <PricePop :goodId="item.goodId"/>
             </div>
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">{{item.goodName}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+                {{category[parseInt(item.goodSmlclsCode/1000)]}}
+            </h6>
+            <PricePop :goodId="item.goodId" />
         </div>
     </div>
 </template>
@@ -67,8 +67,12 @@ export default {
 </script>
 
 <style>
+.card {
+    border-color: transparent;
+    border-radius: 0;
+}
 
-.card{
+.card:hover {
 box-shadow: 0 3.2px 2.2px rgba(0, 0, 0, 0.02),
     0 7px 5.4px rgba(0, 0, 0, 0.028), 0 12.1px 10.1px rgba(0, 0, 0, 0.035),
     0 19.8px 18.1px rgba(0, 0, 0, 0.042), 0 34.7px 33.8px rgba(0, 0, 0, 0.05),
@@ -83,9 +87,11 @@ box-shadow: 0 3.2px 2.2px rgba(0, 0, 0, 0.02),
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.4em;
-  height: 2.8em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.card-subtitle {
+    font-weight: bold;
 }
 </style>
