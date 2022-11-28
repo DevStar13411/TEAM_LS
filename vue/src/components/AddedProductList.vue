@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.screen-right(class="flex-column flex-shrink-0 d-md-block sidebar collapse" ref="cartItems")
+.screen-right(class="flex-column flex-shrink-0 d-md-block sidebar collapse overflow-auto" ref="cartItems")
     .app-bar
      img.logo(src="@/assets/logo_small.png/")
     .title 
@@ -71,6 +71,7 @@ body {
   padding: 0 28px;
   position: relative;
   margin-bottom: 20px;
+  
 
   &::before {
     content: "";

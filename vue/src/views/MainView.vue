@@ -110,5 +110,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang = "scss">
+
+.screen-right {
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 </style>
