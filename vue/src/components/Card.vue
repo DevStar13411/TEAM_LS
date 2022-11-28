@@ -4,7 +4,7 @@
             <img style="position: relative;" class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
             <div>
                 <div style="position: absolute; bottom: 5%; right: 5%;">
-                    <img src="@/assets/cart.png" style="height: 50px; width: 50px; cursor: pointer;" @click="addOrder(item)">
+                    <img src="@/assets/cart.png" style="height: 50px; width: 50px; cursor: pointer;" @click="[addOrder(item), openModal()]">
                 </div>
             </div>
         </div>
@@ -16,14 +16,27 @@
             <PricePop :goodId="item.goodId" />
         </div>
     </div>
+
+
+    <MyModal @close="closeModal" v-if="modal">
+      <!-- default 슬롯 콘텐츠 -->
+      <p>알림</p>
+      <div>{{item.goodName}}을(를) 장바구니에 담았습니다</div>
+      <!-- /default -->
+      <!-- footer 슬롯 콘텐츠 -->
+      <!-- /footer -->
+    </MyModal>
 </template>
 
 <script>
 import PricePop from '@/components/PricePop.vue';
+import MyModal from './MyModal.vue';
+
 export default {
 	name : 'ItemCard',
     components:{
-        PricePop
+        PricePop,
+        MyModal
     },
     props:{
         item: Object
@@ -41,14 +54,18 @@ export default {
             30206 : "차/음료/주류",
             30301 : "이미용품",
             30302 : "세탁/주방/가사용품",
-            30103 : "생선류"},
+            30103 : "생선류",
+            30304 : "기타",
+            30305 : "기타"},
+        modal : false,
+        message : ''
         };
     },
 
     methods : {
         addOrder(item) {
             this.$store.dispatch("addOrder", item);
-            alert(item.goodName + " 이(가) 장바구니에 추가되었습니다.");
+            // alert(item.goodName + " 이(가) 장바구니에 추가되었습니다.");
             console.log("item = ", item);
             console.log("방금 담은 item: " + this.$store.getters.getcartProducts.find(element => element.goodId === item.goodId).elem);
             // console.log("item Quantity = " + item.goodQuantity);
@@ -61,6 +78,21 @@ export default {
             }else{
                 return false;
             }
+        },
+        openModal() {
+            this.modal = true;
+        },
+        closeModal() {
+        this.modal = false;
+        },
+        doSend() {
+        if (this.message.length > 0) {
+            alert(this.message);
+            this.message = '';
+            this.closeModal();
+        } else {
+            alert('메시지를 입력해주세요.');
+        }
         }
     }   
 };
