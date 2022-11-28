@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header style="position: sticky; top: 0; z-index: 2;">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container-fluid">
         <button class="navbar-toggler" style="display: block;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
