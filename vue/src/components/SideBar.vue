@@ -24,6 +24,7 @@ export default {
             {name:"전체", code:"", isActive: true},
             {name:"정육/난류", code:"30101", isActive: false},
             {name:"수산가공품", code:"30202", isActive: false},
+            {name:"곡물가공품", code:"30201", isActive: false},
             {name:"낙농/축산가공품", code:"30203", isActive: false},
             {name:"생선류", code:"30103", isActive: false},
             {name:"조미료/장류/식용유", code:"30204", isActive: false},
