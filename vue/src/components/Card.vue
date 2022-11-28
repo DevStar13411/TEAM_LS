@@ -2,18 +2,21 @@
     <div class="card">
         <div  style="position: relative;">
             <img style="position: relative;" class="card-img-top p-3" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
-            <div>
+            <!-- <div>
                 <div style="position: absolute; bottom: 5%; right: 5%;">
                     <img src="@/assets/cart.png" style="height: 50px; width: 50px; cursor: pointer;" @click="[addOrder(item), openModal()]">
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="card-body">
             <h6 class="card-title">{{item.goodName}}</h6>
             <h6 class="card-subtitle mb-2">
                 {{category[parseInt(item.goodSmlclsCode/1000)]}}
             </h6>
-            <PricePop :goodId="item.goodId" />
+            <div class="d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-sm btn-outline-secondary" @click="[addOrder(item), openModal()]">장바구니담기</button>
+                <PricePop :goodId="item.goodId"/>
+            </div>
         </div>
     </div>
 
