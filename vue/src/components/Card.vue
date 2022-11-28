@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div  style="position: relative;">
-            <img style="position: relative;" class="card-img-top" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
+            <img style="position: relative;" class="card-img-top p-3" :src="'https://zzangbaguni.shop/static/img/' + item.goodId + '.jpg'" alt="https://picsum.photos/300/500">
             <div>
                 <div style="position: absolute; bottom: 5%; right: 5%;">
                     <img src="@/assets/cart.png" style="height: 50px; width: 50px; cursor: pointer;" @click="[addOrder(item), openModal()]">
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <h6 class="card-title">{{item.goodName}}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">
+            <h6 class="card-subtitle mb-2">
                 {{category[parseInt(item.goodSmlclsCode/1000)]}}
             </h6>
             <PricePop :goodId="item.goodId" />
@@ -100,18 +100,15 @@ export default {
 
 <style>
 .card {
-    border-color: transparent;
-    border-radius: 0;
+    /* border-color: transparent; */
+    /* border-radius: 0; */
 }
 
 .card:hover {
 box-shadow: 0 3.2px 2.2px rgba(0, 0, 0, 0.02),
     0 7px 5.4px rgba(0, 0, 0, 0.028), 0 12.1px 10.1px rgba(0, 0, 0, 0.035),
     0 19.8px 18.1px rgba(0, 0, 0, 0.042), 0 34.7px 33.8px rgba(0, 0, 0, 0.05),
-    0 81px 81px rgba(0, 0, 0, 0.07),
-    0 -3.2px 2.2px rgba(0, 0, 0, 0.02),
-    0 -7px 5.4px rgba(0, 0, 0, 0.028), 0 -12.1px 10.1px rgba(0, 0, 0, 0.035),
-    0 -19.8px 18.1px rgba(0, 0, 0, 0.042);
+    0 81px 81px rgba(0, 0, 0, 0.07)
 }
 
 .card-img-top {
@@ -125,8 +122,10 @@ box-shadow: 0 3.2px 2.2px rgba(0, 0, 0, 0.02),
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  color: #333333;
 }
 .card-subtitle {
-    font-weight: bold;
+    font-weight: 800;
+  color: #333333;
 }
 </style>
