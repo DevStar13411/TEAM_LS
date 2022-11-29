@@ -100,8 +100,8 @@ export default {
 
 <style>
 .card {
-    /* border-color: transparent; */
-    /* border-radius: 0; */
+    border-color: transparent;
+    border-radius: 0;
 }
 
 .card:hover {
