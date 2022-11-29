@@ -255,8 +255,21 @@ export default {
 			
 				//infowindow.close();
 			}
-			
-			
+
+			const icon = {
+            url: 'https://cdn-icons-png.flaticon.com/512/2377/2377922.png',
+            scaledSize: new window.naver.maps.Size(48,48),
+            anchor: new window.naver.maps.Point(24, 48)
+      };
+
+      let nowPos = new window.naver.maps.Marker({ //eslint-disable-line no-unused-vars
+				position: new window.naver.maps.LatLng(this.latitude,this.longitude),
+				map: map,
+				title: "현위치",
+
+				icon: icon
+
+			});
 			
 			
 			
